@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 
@@ -8,13 +9,25 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1">
 
-<title>ME N U ❤️</title>
+<title>Niharika ❤️</title>
+
+
+<!-- =================================================
+     SPECIAL FAVICON
+================================================= -->
+
+<link
+rel="icon"
+type="image/svg+xml"
+href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='85'%3E❤️%3C/text%3E%3C/svg%3E">
+
 
 <style>
 
 * {
   box-sizing: border-box;
 }
+
 
 body {
 
@@ -473,6 +486,73 @@ h1 {
 
 
 /* =================================================
+   LANGUAGE SETTINGS
+================================================= */
+
+.language-settings {
+
+  margin-top:
+    18px;
+
+  padding:
+    15px;
+
+  background:
+    rgba(34,34,34,.8);
+
+  border-radius:
+    12px;
+
+  text-align:
+    left;
+
+}
+
+
+.language-settings label {
+
+  display:
+    block;
+
+  margin-bottom:
+    8px;
+
+  font-size:
+    14px;
+
+}
+
+
+#languageSelect {
+
+  width:
+    100%;
+
+  padding:
+    12px;
+
+  margin-top:
+    6px;
+
+  border:
+    1px solid #555;
+
+  border-radius:
+    8px;
+
+  background:
+    #222;
+
+  color:
+    white;
+
+  font-size:
+    15px;
+
+}
+
+
+/* =================================================
    VOICE SETTINGS
 ================================================= */
 
@@ -760,6 +840,33 @@ onclick="replayAnswer()">
 
 
 <!-- =================================================
+     LANGUAGE
+================================================= -->
+
+<div class="language-settings">
+
+<label>
+
+🌐 Language
+
+<select id="languageSelect">
+
+<option value="en-IN" selected>
+🇬🇧 English
+</option>
+
+<option value="hi-IN">
+🇮🇳 हिन्दी
+</option>
+
+</select>
+
+</label>
+
+</div>
+
+
+<!-- =================================================
      VOICE SETTINGS
 ================================================= -->
 
@@ -803,7 +910,7 @@ oninput="updateSpeed()">
 
 
 <!-- =================================================
-     HISTORY
+   HISTORY
 ================================================= -->
 
 <div id="history">
@@ -836,6 +943,70 @@ const API_URL =
 let currentAnswer = "";
 
 let voices = [];
+
+
+// =================================================
+// SPECIAL TAB EXPERIENCE
+// =================================================
+
+window.addEventListener(
+  "load",
+  function() {
+
+    document.title =
+      "Hey Niharika ❤️";
+
+    setTimeout(
+      function() {
+
+        document.title =
+          "ME N U ❤️";
+
+      },
+      4000
+    );
+
+  }
+);
+
+
+// =================================================
+// LANGUAGE CHANGE
+// =================================================
+
+document
+  .getElementById(
+    "languageSelect"
+  )
+  .addEventListener(
+    "change",
+    function() {
+
+      const language =
+        this.value;
+
+      if (
+        language === "hi-IN"
+      ) {
+
+        setStatus(
+          "🇮🇳 हिन्दी चुनी गई है ❤️"
+        );
+
+      }
+
+      else {
+
+        setStatus(
+          "🇬🇧 English selected ❤️"
+        );
+
+      }
+
+      loadVoices();
+
+    }
+  );
 
 
 // =================================================
@@ -889,11 +1060,19 @@ function startVoice() {
 
   }
 
+
   const recognition =
     new SpeechRecognition();
 
+
+  // USE SELECTED LANGUAGE
   recognition.lang =
-    "en-IN";
+    document
+      .getElementById(
+        "languageSelect"
+      )
+      .value;
+
 
   recognition.continuous =
     false;
@@ -915,9 +1094,27 @@ function startVoice() {
   );
 
 
-  setStatus(
-    "🎙️ Listening..."
-  );
+  const language =
+    recognition.lang;
+
+
+  if (
+    language === "hi-IN"
+  ) {
+
+    setStatus(
+      "🎙️ सुन रही हूँ..."
+    );
+
+  }
+
+  else {
+
+    setStatus(
+      "🎙️ Listening..."
+    );
+
+  }
 
 
   try {
@@ -970,9 +1167,23 @@ function startVoice() {
           );
 
 
-      setStatus(
-        "✏️ Edit if needed, then press SEND."
-      );
+      if (
+        language === "hi-IN"
+      ) {
+
+        setStatus(
+          "✏️ जरूरत हो तो बदलें, फिर SEND दबाएँ।"
+        );
+
+      }
+
+      else {
+
+        setStatus(
+          "✏️ Edit if needed, then press SEND."
+        );
+
+      }
 
     };
 
@@ -1035,6 +1246,14 @@ async function sendToAI(
         "Thinking";
 
 
+    const selectedLanguage =
+      document
+        .getElementById(
+          "languageSelect"
+        )
+        .value;
+
+
     const response =
       await fetch(
         API_URL,
@@ -1054,7 +1273,10 @@ async function sendToAI(
             JSON.stringify({
 
               question:
-                question
+                question,
+
+              language:
+                selectedLanguage
 
             })
 
@@ -1123,17 +1345,6 @@ async function sendToAI(
     );
 
 
-    /*
-      IMPORTANT:
-
-      NO automatic speech here.
-
-      The AI will NOT speak automatically.
-
-      User must press:
-      🔊 Speak Answer
-    */
-
   }
 
   catch(error) {
@@ -1176,6 +1387,7 @@ function setThinking(
     document.getElementById(
       "status"
     );
+
 
   if (thinking) {
 
@@ -1292,8 +1504,13 @@ function speakCurrentAnswer() {
   }
 
 
+  // SELECTED LANGUAGE
   utterance.lang =
-    "en-IN";
+    document
+      .getElementById(
+        "languageSelect"
+      )
+      .value;
 
 
   utterance.rate =
@@ -1505,30 +1722,69 @@ function loadVoices() {
   );
 
 
-  // Prefer Indian English voice
-  const indianVoice =
+  const language =
+    document
+      .getElementById(
+        "languageSelect"
+      )
+      .value;
+
+
+  // =================================================
+  // FIND BEST VOICE FOR SELECTED LANGUAGE
+  // =================================================
+
+  const matchingVoice =
     voices.find(
       function(voice) {
 
-        return (
-          voice.lang
-            .toLowerCase()
-            .includes("en-in")
-        );
+        return voice.lang
+          .toLowerCase()
+          .startsWith(
+            language
+              .toLowerCase()
+              .split("-")[0]
+          );
 
       }
     );
 
 
-  if (indianVoice) {
+  // Prefer exact language
+  const exactVoice =
+    voices.find(
+      function(voice) {
+
+        return voice.lang
+          .toLowerCase()
+          .includes(
+            language.toLowerCase()
+          );
+
+      }
+    );
+
+
+  if (exactVoice) {
 
     select.value =
-      indianVoice.name;
+      exactVoice.name;
+
+  }
+
+  else if (matchingVoice) {
+
+    select.value =
+      matchingVoice.name;
 
   }
 
 }
 
+
+// =================================================
+// VOICES READY
+// =================================================
 
 if (
   window.speechSynthesis
@@ -1614,6 +1870,7 @@ function addHistory(
 
 
   // Keep last 20 conversations
+
   while (
     history.children.length >
     21
@@ -1684,9 +1941,11 @@ function setStatus(
       "status"
     );
 
+
   status.classList.remove(
     "thinking"
   );
+
 
   status.innerText =
     text;
@@ -1726,3 +1985,4 @@ document
 </body>
 
 </html>
+```
