@@ -29,10 +29,17 @@ body {
 
 h1 {
   font-size: 42px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  opacity: .6;
+  margin-bottom: 25px;
 }
 
 #status {
   margin: 20px;
+  min-height: 22px;
 }
 
 #mic {
@@ -42,6 +49,10 @@ h1 {
   border: none;
   font-size: 50px;
   cursor: pointer;
+}
+
+#mic:hover {
+  transform: scale(1.03);
 }
 
 .input-area {
@@ -70,6 +81,10 @@ h1 {
 
 }
 
+#question:focus {
+  border-color: white;
+}
+
 #send {
 
   padding: 15px 20px;
@@ -79,6 +94,24 @@ h1 {
   border-radius: 10px;
 
   cursor: pointer;
+
+  font-weight: bold;
+
+}
+
+#speakButton {
+
+  margin-top: 12px;
+
+  padding: 12px 20px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 15px;
 
 }
 
@@ -93,6 +126,8 @@ h1 {
   border-radius: 12px;
 
   text-align: left;
+
+  line-height: 1.5;
 
 }
 
@@ -122,10 +157,14 @@ ME N U
 </h1>
 
 
-<div>
+<div class="subtitle">
 Voice + Text
 </div>
 
+
+<!-- =================================================
+     MICROPHONE
+================================================= -->
 
 <button
 id="mic"
@@ -141,14 +180,16 @@ Ready
 </div>
 
 
-<!-- TEXT INPUT -->
+<!-- =================================================
+     TEXT INPUT
+================================================= -->
 
 <div class="input-area">
 
 <input
 id="question"
 type="text"
-placeholder="Type your question..."
+placeholder="Type or edit your question..."
 autocomplete="off">
 
 <button
@@ -161,6 +202,10 @@ SEND
 
 </div>
 
+
+<!-- =================================================
+     YOUR VOICE / QUESTION
+================================================= -->
 
 <div
 id="transcript"
@@ -175,6 +220,10 @@ Waiting...
 </div>
 
 
+<!-- =================================================
+     AI ANSWER
+================================================= -->
+
 <div
 id="answer"
 class="card">
@@ -186,6 +235,19 @@ ME N U
 Waiting...
 
 </div>
+
+
+<!-- =================================================
+     MANUAL SPEAK BUTTON
+================================================= -->
+
+<button
+id="speakButton"
+onclick="speakCurrentAnswer()">
+
+🔊 Speak Answer
+
+</button>
 
 
 </div>
@@ -221,7 +283,7 @@ function sendText() {
   if (!question) {
 
     setStatus(
-      "Type something first."
+      "⚠️ Type something first."
     );
 
     return;
@@ -229,7 +291,9 @@ function sendText() {
   }
 
 
-  sendToAI(question);
+  sendToAI(
+    question
+  );
 
 }
 
@@ -248,7 +312,7 @@ function startVoice() {
   if (!SpeechRecognition) {
 
     setStatus(
-      "Voice recognition unavailable."
+      "❌ Voice recognition unavailable."
     );
 
     return;
@@ -272,12 +336,30 @@ function startVoice() {
     false;
 
 
+  recognition.maxAlternatives =
+    1;
+
+
   setStatus(
     "🎙️ Listening..."
   );
 
 
-  recognition.start();
+  try {
+
+    recognition.start();
+
+  }
+
+  catch(error) {
+
+    setStatus(
+      "❌ Could not start microphone."
+    );
+
+    return;
+
+  }
 
 
   recognition.onresult =
@@ -290,7 +372,9 @@ function startVoice() {
           .trim();
 
 
-      // PUT VOICE INTO TEXT BOX
+      // =============================================
+      // PUT VOICE INTO EDITABLE TEXT BOX
+      // =============================================
 
       document
         .getElementById(
@@ -300,17 +384,27 @@ function startVoice() {
           question;
 
 
+      // =============================================
+      // SHOW TRANSCRIPTION
+      // =============================================
+
       document
         .getElementById(
           "transcript"
         )
         .innerHTML =
           "<div class='label'>YOU</div>" +
-          escapeHTML(question);
+          escapeHTML(
+            question
+          );
 
+
+      // =============================================
+      // DO NOT SEND AUTOMATICALLY
+      // =============================================
 
       setStatus(
-        "✏️ Edit the text or press SEND"
+        "✏️ Edit if needed, then press SEND."
       );
 
     };
@@ -322,6 +416,16 @@ function startVoice() {
       setStatus(
         "❌ Voice error: " +
         event.error
+      );
+
+    };
+
+
+  recognition.onend =
+    function() {
+
+      console.log(
+        "Voice recognition ended."
       );
 
     };
@@ -342,21 +446,45 @@ async function sendToAI(question) {
     );
 
 
+    // =============================================
+    // SHOW QUESTION
+    // =============================================
+
     document
       .getElementById(
         "transcript"
       )
       .innerHTML =
         "<div class='label'>YOU</div>" +
-        escapeHTML(question);
+        escapeHTML(
+          question
+        );
 
+
+    // =============================================
+    // CLEAR OLD ANSWER
+    // =============================================
+
+    document
+      .getElementById(
+        "answer"
+      )
+      .innerHTML =
+        "<div class='label'>ME N U</div>" +
+        "Thinking...";
+
+
+    // =============================================
+    // SEND REQUEST
+    // =============================================
 
     const response =
       await fetch(
         API_URL,
         {
 
-          method: "POST",
+          method:
+            "POST",
 
           headers: {
 
@@ -377,6 +505,24 @@ async function sendToAI(question) {
       );
 
 
+    // =============================================
+    // CHECK SERVER
+    // =============================================
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Server error: " +
+        response.status
+      );
+
+    }
+
+
+    // =============================================
+    // READ RESPONSE
+    // =============================================
+
     const data =
       await response.json();
 
@@ -391,11 +537,19 @@ async function sendToAI(question) {
     }
 
 
+    // =============================================
+    // GET ANSWER
+    // =============================================
+
     const answer =
       data.answer ||
       data.message ||
       "No answer received.";
 
+
+    // =============================================
+    // SHOW ANSWER
+    // =============================================
 
     document
       .getElementById(
@@ -403,15 +557,19 @@ async function sendToAI(question) {
       )
       .innerHTML =
         "<div class='label'>ME N U</div>" +
-        escapeHTML(answer);
+        escapeHTML(
+          answer
+        );
 
+
+    // =============================================
+    // IMPORTANT:
+    // NO AUTOMATIC SPEAKING
+    // =============================================
 
     setStatus(
-      "🔊 Speaking..."
+      "✅ Answer received. Press 🔊 to hear it."
     );
-
-
-    speak(answer);
 
 
   }
@@ -440,10 +598,14 @@ async function sendToAI(question) {
 
 
 // =================================================
-// SPEAK
+// MANUAL SPEAK CURRENT ANSWER
 // =================================================
 
-function speak(text) {
+function speakCurrentAnswer() {
+
+  // ===============================================
+  // CHECK BROWSER SUPPORT
+  // ===============================================
 
   if (
     !window.speechSynthesis ||
@@ -451,7 +613,7 @@ function speak(text) {
   ) {
 
     setStatus(
-      "Answer received."
+      "❌ Text-to-speech unavailable."
     );
 
     return;
@@ -459,9 +621,53 @@ function speak(text) {
   }
 
 
+  // ===============================================
+  // GET ANSWER TEXT
+  // ===============================================
+
+  const answerElement =
+    document.getElementById(
+      "answer"
+    );
+
+
+  let text =
+    answerElement.innerText;
+
+
+  // Remove ME N U label
+
+  text =
+    text
+      .replace(
+        "ME N U",
+        ""
+      )
+      .trim();
+
+
+  if (
+    !text ||
+    text === "Waiting..." ||
+    text === "Thinking..."
+  ) {
+
+    setStatus(
+      "⚠️ Nothing to speak yet."
+    );
+
+    return;
+
+  }
+
+
+  // ===============================================
+  // CREATE VOICE
+  // ===============================================
+
   const utterance =
     new SpeechSynthesisUtterance(
-      String(text)
+      text
     );
 
 
@@ -481,6 +687,16 @@ function speak(text) {
     1;
 
 
+  utterance.onstart =
+    function() {
+
+      setStatus(
+        "🔊 Speaking..."
+      );
+
+    };
+
+
   utterance.onend =
     function() {
 
@@ -490,6 +706,21 @@ function speak(text) {
 
     };
 
+
+  utterance.onerror =
+    function(event) {
+
+      setStatus(
+        "❌ Speech error: " +
+        event.error
+      );
+
+    };
+
+
+  // ===============================================
+  // START SPEAKING
+  // ===============================================
 
   try {
 
@@ -504,7 +735,7 @@ function speak(text) {
   catch(error) {
 
     setStatus(
-      "Answer received."
+      "❌ Speech failed."
     );
 
   }
@@ -585,6 +816,8 @@ document
         event.key ===
         "Enter"
       ) {
+
+        event.preventDefault();
 
         sendText();
 
