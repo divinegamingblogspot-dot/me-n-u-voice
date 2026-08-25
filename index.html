@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
@@ -18,295 +18,201 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
 
 <style>
 
-/* =================================================
-   BASIC
-================================================= */
+/* =========================================================
+   BASE
+========================================================= */
 
 * {
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
 
   background:
     radial-gradient(
-      circle at top,
-      #351525,
-      #111 55%
+      circle at 50% -15%,
+      #741f45 0%,
+      #3a1528 24%,
+      #180d15 58%,
+      #070507 100%
     );
-
-  color: white;
-  font-family: Arial, sans-serif;
-  overflow-x: hidden;
 }
 
 
-/* =================================================
-   ROMANTIC BACKGROUND
-================================================= */
+/* =========================================================
+   BACKGROUND EFFECT LAYER
+========================================================= */
 
-#romanticEffects {
+#effects {
   position: fixed;
   inset: 0;
-  pointer-events: none;
   overflow: hidden;
+  pointer-events: none;
   z-index: 1;
 }
 
 
-/* =================================================
-   FALLING PETALS
-================================================= */
+/* =========================================================
+   MOON
+========================================================= */
 
-.petal {
-  position: absolute;
-  top: -60px;
+.moon {
+  position: fixed;
+  top: 55px;
+  right: 8%;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
 
-  font-size: 20px;
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffffff,
+      #ffe9f1 48%,
+      #ffc4d8
+    );
+
+  box-shadow:
+    0 0 25px rgba(255,220,235,.8),
+    0 0 80px rgba(255,80,150,.35);
+
+  opacity: .9;
 
   animation:
-    petalFall linear forwards;
+    moonFloat 5s ease-in-out infinite;
 
-  opacity: 0;
-
-  filter:
-    drop-shadow(
-      0 0 5px
-      rgba(255,100,150,.4)
-    );
+  z-index: 0;
 }
 
-@keyframes petalFall {
+@keyframes moonFloat {
 
-  0% {
-    transform:
-      translate3d(0,-60px,0)
-      rotate(0deg);
-
-    opacity: 0;
-  }
-
-  10% {
-    opacity: .9;
+  0%,100% {
+    transform: translateY(0);
   }
 
   50% {
-    transform:
-      translate3d(70px,50vh,0)
-      rotate(180deg);
-
-    opacity: .8;
+    transform: translateY(12px);
   }
-
-  100% {
-    transform:
-      translate3d(-80px,110vh,0)
-      rotate(360deg);
-
-    opacity: 0;
-  }
-
 }
 
 
-/* =================================================
-   FLOATING HEARTS
-================================================= */
+/* =========================================================
+   STARS
+========================================================= */
 
-.floating-heart {
-  position: absolute;
-  bottom: -50px;
-
-  font-size: 18px;
+.star {
+  position: fixed;
+  color: white;
+  opacity: .7;
+  pointer-events: none;
 
   animation:
-    heartFloat linear forwards;
-
-  opacity: 0;
+    twinkle 2s infinite alternate;
 }
 
-@keyframes heartFloat {
+@keyframes twinkle {
 
-  0% {
-    transform:
-      translateY(0)
-      scale(.7);
-
-    opacity: 0;
+  from {
+    opacity: .15;
+    transform: scale(.5);
   }
 
-  15% {
-    opacity: .8;
-  }
-
-  80% {
-    opacity: .6;
-  }
-
-  100% {
-    transform:
-      translateY(-110vh)
-      scale(1.2);
-
-    opacity: 0;
-  }
-
-}
-
-
-/* =================================================
-   SPARKLES
-================================================= */
-
-.sparkle {
-  position: absolute;
-
-  color: #fff;
-
-  font-size: 16px;
-
-  animation:
-    sparkleAnimation 1.8s ease-out forwards;
-}
-
-@keyframes sparkleAnimation {
-
-  0% {
-    transform:
-      scale(0)
-      rotate(0deg);
-
-    opacity: 0;
-  }
-
-  40% {
-    transform:
-      scale(1.4)
-      rotate(90deg);
-
+  to {
     opacity: 1;
+    transform: scale(1.4);
   }
-
-  100% {
-    transform:
-      scale(0)
-      rotate(180deg);
-
-    opacity: 0;
-  }
-
 }
 
 
-/* =================================================
-   BUTTERFLIES
-================================================= */
-
-.butterfly {
-  position: absolute;
-
-  left: -100px;
-
-  font-size: 30px;
-
-  animation:
-    butterflyFly 10s linear forwards;
-
-  opacity: 0;
-}
-
-@keyframes butterflyFly {
-
-  0% {
-    transform:
-      translateX(0)
-      translateY(0)
-      rotate(-10deg);
-
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  30% {
-    transform:
-      translateX(30vw)
-      translateY(-80px)
-      rotate(10deg);
-  }
-
-  55% {
-    transform:
-      translateX(55vw)
-      translateY(70px)
-      rotate(-8deg);
-  }
-
-  80% {
-    transform:
-      translateX(80vw)
-      translateY(-100px)
-      rotate(8deg);
-  }
-
-  100% {
-    transform:
-      translateX(115vw)
-      translateY(20px)
-      rotate(-5deg);
-
-    opacity: 0;
-  }
-
-}
-
-
-/* =================================================
-   CONTAINER
-================================================= */
+/* =========================================================
+   MAIN
+========================================================= */
 
 .container {
   position: relative;
-
   z-index: 5;
 
-  width: 90%;
-  max-width: 650px;
+  width: 92%;
+  max-width: 680px;
 
-  margin: 40px auto;
+  margin:
+    35px auto 130px;
 
   text-align: center;
 }
 
 
-/* =================================================
+/* =========================================================
    TITLE
-================================================= */
+========================================================= */
 
-h1 {
-  font-size: 45px;
-
-  margin-bottom: 5px;
-
-  letter-spacing: 2px;
-
-  animation:
-    titleHeartbeat 2.5s infinite;
+.title-wrap {
+  display: inline-block;
+  position: relative;
 }
 
-@keyframes titleHeartbeat {
+h1 {
 
-  0%,
+  margin: 0;
+
+  font-size: 52px;
+
+  letter-spacing: 4px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff,
+      #ffb4ca,
+      #ffffff,
+      #ff80aa,
+      #ffffff
+    );
+
+  background-size: 300% auto;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  filter:
+    drop-shadow(
+      0 0 18px
+      rgba(255,100,160,.55)
+    );
+
+  animation:
+    titleShine 5s linear infinite,
+    titleBeat 2.4s infinite;
+}
+
+@keyframes titleShine {
+
+  0% {
+    background-position: 0% center;
+  }
+
   100% {
+    background-position: 300% center;
+  }
+}
+
+@keyframes titleBeat {
+
+  0%,100% {
     transform: scale(1);
   }
 
   10% {
-    transform: scale(1.03);
+    transform: scale(1.04);
   }
 
   20% {
@@ -314,7 +220,7 @@ h1 {
   }
 
   30% {
-    transform: scale(1.04);
+    transform: scale(1.06);
   }
 
   45% {
@@ -323,217 +229,349 @@ h1 {
 }
 
 .subtitle {
-  opacity: .6;
 
-  margin-bottom: 10px;
+  margin-top: 7px;
+
+  color:
+    rgba(255,255,255,.62);
+
+  letter-spacing: 2px;
 }
 
+.top-decor {
 
-/* =================================================
-   BOUQUET
-================================================= */
+  margin-top: 10px;
 
-.bouquet {
-  position: relative;
+  font-size: 22px;
 
-  width: 230px;
-  height: 150px;
-
-  margin: 5px auto 10px;
+  letter-spacing: 7px;
 
   animation:
-    bouquetSway 4s ease-in-out infinite;
+    decorPulse 2s infinite alternate;
 }
 
-@keyframes bouquetSway {
+@keyframes decorPulse {
 
-  0%,
-  100% {
-    transform: rotate(-2deg);
+  from {
+    opacity: .45;
+    transform: scale(.96);
   }
 
-  50% {
-    transform: rotate(2deg);
+  to {
+    opacity: 1;
+    transform: scale(1.04);
   }
-
 }
 
 
-/* stems */
+/* =========================================================
+   BOUQUET
+========================================================= */
 
-.stem {
+.bouquet {
+
+  position: relative;
+
+  width: 340px;
+  height: 245px;
+
+  margin:
+    0 auto -5px;
+}
+
+.bouquet::before {
+
+  content: "";
+
   position: absolute;
 
-  width: 4px;
+  width: 260px;
+  height: 210px;
 
-  height: 95px;
+  left: 40px;
+  top: 10px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,70,140,.35),
+      transparent 70%
+    );
+
+  filter: blur(18px);
+
+  animation:
+    bouquetGlow 2.5s infinite alternate;
+}
+
+@keyframes bouquetGlow {
+
+  from {
+    opacity: .45;
+    transform: scale(.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+
+/* =========================================================
+   STEMS
+========================================================= */
+
+.stem {
+
+  position: absolute;
+
+  width: 6px;
+  height: 160px;
+
+  bottom: 8px;
+  left: 50%;
+
+  border-radius: 10px;
 
   background:
     linear-gradient(
-      to right,
-      #315d38,
-      #6b9c58,
-      #315d38
+      90deg,
+      #163a22,
+      #75a95c,
+      #1c4c29
     );
 
-  bottom: 5px;
-
-  left: 50%;
-
-  transform-origin: bottom;
+  transform-origin: bottom center;
 }
 
-
-/* individual stems */
-
 .stem1 {
-  transform: rotate(-28deg);
+  transform: rotate(-34deg);
 }
 
 .stem2 {
-  transform: rotate(-15deg);
+  transform: rotate(-21deg);
 }
 
 .stem3 {
-  transform: rotate(0deg);
+  transform: rotate(-8deg);
 }
 
 .stem4 {
-  transform: rotate(15deg);
+  transform: rotate(7deg);
 }
 
 .stem5 {
-  transform: rotate(28deg);
+  transform: rotate(22deg);
+}
+
+.stem6 {
+  transform: rotate(35deg);
 }
 
 
-/* flowers */
+/* =========================================================
+   LEAVES
+========================================================= */
 
-.flower {
+.leaf {
+
   position: absolute;
 
-  font-size: 43px;
+  width: 38px;
+  height: 18px;
 
-  transform-origin: bottom;
+  border-radius:
+    100% 0 100% 0;
 
-  animation:
-    flowerBloom 1.2s ease-out forwards;
-
-  opacity: 0;
-
-  filter:
-    drop-shadow(
-      0 3px 8px
-      rgba(255,80,120,.3)
+  background:
+    linear-gradient(
+      135deg,
+      #78ad5b,
+      #1c4728
     );
 }
 
-.flower1 {
-  left: 22px;
-  top: 20px;
-
-  animation-delay: .2s;
+.leaf1 {
+  left: 65px;
+  bottom: 60px;
+  transform: rotate(25deg);
 }
 
-.flower2 {
-  left: 58px;
-  top: 0;
-
-  animation-delay: .4s;
+.leaf2 {
+  right: 62px;
+  bottom: 67px;
+  transform: rotate(150deg);
 }
 
-.flower3 {
-  left: 94px;
-  top: 17px;
-
-  animation-delay: .6s;
+.leaf3 {
+  left: 130px;
+  bottom: 45px;
+  transform: rotate(170deg);
 }
 
-.flower4 {
-  left: 132px;
-  top: 3px;
 
-  animation-delay: .8s;
+/* =========================================================
+   FLOWERS
+========================================================= */
+
+.bloom {
+
+  position: absolute;
+
+  z-index: 4;
+
+  font-size: 60px;
+
+  transform: scale(0);
+
+  animation:
+    bloomIn 1.3s
+    cubic-bezier(.17,.67,.3,1.4)
+    forwards,
+
+    flowerFloat 3s
+    ease-in-out
+    infinite;
+
+  filter:
+    drop-shadow(
+      0 4px 10px
+      rgba(255,50,120,.45)
+    );
 }
 
-.flower5 {
-  left: 168px;
-  top: 25px;
-
-  animation-delay: 1s;
+.b1 {
+  left: 15px;
+  top: 55px;
+  animation-delay: .1s,.1s;
 }
 
-@keyframes flowerBloom {
+.b2 {
+  left: 70px;
+  top: 7px;
+  animation-delay: .3s,.3s;
+}
+
+.b3 {
+  left: 125px;
+  top: 45px;
+  animation-delay: .5s,.5s;
+}
+
+.b4 {
+  left: 180px;
+  top: 5px;
+  animation-delay: .7s,.7s;
+}
+
+.b5 {
+  left: 235px;
+  top: 55px;
+  animation-delay: .9s,.9s;
+}
+
+.b6 {
+  left: 145px;
+  top: 92px;
+  font-size: 48px;
+  animation-delay: 1.1s,1.1s;
+}
+
+@keyframes bloomIn {
 
   0% {
-    opacity: 0;
-
     transform:
       scale(0)
-      rotate(-20deg);
+      rotate(-35deg);
+
+    opacity: 0;
   }
 
   70% {
     transform:
-      scale(1.15)
-      rotate(5deg);
+      scale(1.18)
+      rotate(8deg);
+
+    opacity: 1;
   }
 
   100% {
-    opacity: 1;
-
     transform:
       scale(1)
       rotate(0);
+
+    opacity: 1;
+  }
+}
+
+@keyframes flowerFloat {
+
+  0%,100% {
+    margin-top: 0;
   }
 
+  50% {
+    margin-top: -7px;
+  }
 }
 
 
-/* bouquet ribbon */
+/* =========================================================
+   RIBBON
+========================================================= */
 
-.bouquet-ribbon {
+.ribbon {
+
   position: absolute;
 
-  bottom: 0;
-
   left: 50%;
+  bottom: -3px;
 
   transform:
     translateX(-50%);
 
-  font-size: 45px;
+  z-index: 6;
+
+  font-size: 68px;
 
   animation:
-    ribbonBounce 2s infinite;
+    ribbonMove 2s infinite;
+
+  filter:
+    drop-shadow(
+      0 5px 12px
+      rgba(255,40,120,.5)
+    );
 }
 
-@keyframes ribbonBounce {
+@keyframes ribbonMove {
 
-  0%,
-  100% {
+  0%,100% {
     transform:
       translateX(-50%)
-      scale(1);
+      rotate(-3deg);
   }
 
   50% {
     transform:
       translateX(-50%)
-      scale(1.08);
+      rotate(3deg)
+      scale(1.05);
   }
-
 }
 
 
-/* =================================================
+/* =========================================================
    WELCOME
-================================================= */
+========================================================= */
 
 #welcome {
+
   min-height: 115px;
 
-  margin: 10px 0 25px;
+  margin:
+    0 0 25px;
 
   font-size: 20px;
 
@@ -541,21 +579,22 @@ h1 {
 }
 
 .welcome-line {
+
   opacity: 0;
 
   transform:
-    translateY(15px);
+    translateY(20px);
 
   animation:
     welcomeIn .8s forwards;
 }
 
 .welcome-line:nth-child(1) {
-  animation-delay: .2s;
+  animation-delay: .4s;
 }
 
 .welcome-line:nth-child(2) {
-  animation-delay: 1s;
+  animation-delay: 1.1s;
 }
 
 .welcome-line:nth-child(3) {
@@ -563,47 +602,112 @@ h1 {
 }
 
 .welcome-line:nth-child(4) {
-  animation-delay: 2.6s;
+  animation-delay: 2.5s;
 }
 
 @keyframes welcomeIn {
 
   to {
     opacity: 1;
-
-    transform:
-      translateY(0);
+    transform: translateY(0);
   }
-
 }
 
 
-/* =================================================
+/* =========================================================
    MIC
-================================================= */
+========================================================= */
 
-#mic {
-  width: 120px;
-  height: 120px;
+.mic-wrap {
+
+  position: relative;
+
+  display: inline-block;
+
+  margin-top: 5px;
+}
+
+.mic-ring {
+
+  position: absolute;
+
+  inset: -16px;
 
   border-radius: 50%;
 
-  border: none;
+  border:
+    2px solid
+    rgba(255,120,170,.3);
+
+  animation:
+    ringPulse 2s infinite;
+}
+
+.mic-ring2 {
+
+  position: absolute;
+
+  inset: -32px;
+
+  border-radius: 50%;
+
+  border:
+    1px solid
+    rgba(255,120,170,.16);
+
+  animation:
+    ringPulse 2s .5s infinite;
+}
+
+@keyframes ringPulse {
+
+  0% {
+    transform: scale(.8);
+    opacity: .8;
+  }
+
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+#mic {
+
+  width: 125px;
+  height: 125px;
+
+  border-radius: 50%;
+
+  border:
+    3px solid
+    rgba(255,255,255,.75);
 
   font-size: 48px;
 
   cursor: pointer;
 
-  transition: .2s;
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #ffffff,
+      #ffd6e4 45%,
+      #ff78a4
+    );
 
-  position: relative;
+  box-shadow:
+    0 0 20px
+    rgba(255,100,160,.7),
 
-  z-index: 5;
+    0 0 65px
+    rgba(255,50,130,.3);
+
+  transition:
+    transform .2s;
 }
 
 #mic:hover {
-  transform:
-    scale(1.05);
+  transform: scale(1.08);
 }
 
 #mic.listening {
@@ -615,37 +719,28 @@ h1 {
 
   0% {
     transform: scale(1);
-
-    box-shadow:
-      0 0 0 0
-      rgba(255,255,255,.3);
   }
 
   50% {
-    transform: scale(1.12);
-
+    transform: scale(1.14);
     box-shadow:
-      0 0 0 20px
-      rgba(255,255,255,0);
+      0 0 60px
+      rgba(255,90,160,1);
   }
 
   100% {
     transform: scale(1);
-
-    box-shadow:
-      0 0 0 0
-      rgba(255,255,255,0);
   }
-
 }
 
 
-/* =================================================
+/* =========================================================
    STATUS
-================================================= */
+========================================================= */
 
 #status {
-  margin: 18px;
+
+  margin: 25px;
 
   min-height: 22px;
 
@@ -653,6 +748,7 @@ h1 {
 }
 
 #status.thinking::after {
+
   content: "";
 
   animation:
@@ -676,119 +772,214 @@ h1 {
   100% {
     content: "...";
   }
-
 }
 
 #status.speaking {
+
   animation:
     speakPulse 1s infinite;
 }
 
 @keyframes speakPulse {
 
-  0% {
+  0%,100% {
     opacity: .5;
   }
 
   50% {
     opacity: 1;
   }
-
-  100% {
-    opacity: .5;
-  }
-
 }
 
 
-/* =================================================
+/* =========================================================
    INPUT
-================================================= */
+========================================================= */
 
 .input-area {
+
   display: flex;
 
   gap: 10px;
 
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 #question {
+
   flex: 1;
 
-  padding: 15px;
+  padding: 16px;
 
   font-size: 17px;
 
-  border-radius: 10px;
+  border-radius: 14px;
 
   border:
-    1px solid #555;
+    1px solid
+    rgba(255,150,180,.25);
 
-  background: #222;
+  background:
+    rgba(20,15,20,.9);
 
   color: white;
 
   outline: none;
+
+  box-shadow:
+    inset 0 0 20px
+    rgba(255,80,130,.04);
 }
 
 #question:focus {
-  border-color: white;
+
+  border-color:
+    #ff8faf;
+
+  box-shadow:
+    0 0 20px
+    rgba(255,80,130,.2);
 }
 
 #send {
+
   padding:
-    15px 20px;
+    15px 23px;
 
   border: none;
 
-  border-radius: 10px;
+  border-radius: 14px;
 
   cursor: pointer;
 
   font-weight: bold;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffb1c9,
+      #ff5f91
+    );
+
+  box-shadow:
+    0 5px 20px
+    rgba(255,60,120,.35);
+
+  transition: .2s;
+}
+
+#send:hover {
+
+  transform:
+    translateY(-2px)
+    scale(1.03);
+
+  box-shadow:
+    0 8px 28px
+    rgba(255,60,120,.55);
 }
 
 
-/* =================================================
+/* =========================================================
    CARDS
-================================================= */
+========================================================= */
 
 .card {
+
   background:
-    rgba(34,34,34,.92);
+    linear-gradient(
+      145deg,
+      rgba(43,25,35,.96),
+      rgba(17,13,18,.96)
+    );
 
   margin-top: 20px;
 
   padding: 20px;
 
-  border-radius: 14px;
+  border-radius: 18px;
 
   text-align: left;
 
-  line-height: 1.6;
+  line-height: 1.65;
 
   word-wrap: break-word;
 
+  border:
+    1px solid
+    rgba(255,120,160,.14);
+
   box-shadow:
-    0 8px 30px
-    rgba(0,0,0,.25);
+    0 12px 40px
+    rgba(0,0,0,.35);
+
+  transition:
+    transform .3s,
+    box-shadow .3s;
+}
+
+.card:hover {
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 15px 45px
+    rgba(255,70,130,.15);
 }
 
 .label {
+
   font-size: 11px;
 
   opacity: .5;
 
   margin-bottom: 10px;
+
+  letter-spacing: 1px;
 }
 
 
-/* =================================================
+/* =========================================================
+   RESPONSE GLOW
+========================================================= */
+
+.answer-glow {
+
+  animation:
+    answerGlow 1.4s ease;
+}
+
+@keyframes answerGlow {
+
+  0% {
+    box-shadow:
+      0 0 0
+      rgba(255,70,140,0);
+  }
+
+  40% {
+    box-shadow:
+      0 0 45px
+      rgba(255,70,140,.45);
+  }
+
+  100% {
+    box-shadow:
+      0 12px 40px
+      rgba(0,0,0,.35);
+  }
+}
+
+
+/* =========================================================
    CONTROLS
-================================================= */
+========================================================= */
 
 .controls {
+
   display: flex;
 
   flex-wrap: wrap;
@@ -801,28 +992,42 @@ h1 {
 }
 
 .controlButton {
+
   padding:
     11px 16px;
 
   border: none;
 
-  border-radius: 10px;
+  border-radius: 12px;
 
   cursor: pointer;
 
   font-size: 14px;
+
+  color: white;
+
+  background:
+    rgba(255,255,255,.1);
+
+  transition: .2s;
 }
 
-#speakButton {
-  margin-top: 15px;
+.controlButton:hover {
+
+  background:
+    rgba(255,120,160,.2);
+
+  transform:
+    translateY(-2px);
 }
 
 
-/* =================================================
+/* =========================================================
    SPEED
-================================================= */
+========================================================= */
 
 .speed-settings {
+
   margin-top: 18px;
 
   padding: 15px;
@@ -830,132 +1035,447 @@ h1 {
   background:
     rgba(34,34,34,.8);
 
-  border-radius: 12px;
+  border-radius: 14px;
 
   text-align: left;
 }
 
 .speed-settings label {
-  display: block;
 
-  margin-bottom: 10px;
+  display: block;
 
   font-size: 14px;
 }
 
 .speed-settings input {
+
   width: 100%;
 
-  margin-top: 5px;
+  margin-top: 8px;
 }
 
 
-/* =================================================
+/* =========================================================
    HISTORY
-================================================= */
+========================================================= */
 
 #history {
+
   margin-top: 25px;
 }
 
 .history-item {
+
   background:
     rgba(34,34,34,.7);
 
   padding: 15px;
 
-  border-radius: 10px;
+  border-radius: 12px;
 
   margin-top: 10px;
 
   text-align: left;
+
+  border-left:
+    2px solid
+    rgba(255,100,150,.45);
 }
 
 .history-user {
+
   opacity: .75;
 
   margin-bottom: 8px;
 }
 
 .history-ai {
+
   line-height: 1.5;
 }
 
 
-/* =================================================
-   LOVE LETTER BUTTON
-================================================= */
+/* =========================================================
+   FALLING PETALS
+========================================================= */
 
-.love-letter-button {
+.petal {
+
+  position: fixed;
+
+  top: -70px;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  font-size: 24px;
+
+  animation:
+    petalFall linear forwards;
+
+  filter:
+    drop-shadow(
+      0 0 7px
+      rgba(255,80,140,.5)
+    );
+}
+
+@keyframes petalFall {
+
+  0% {
+
+    transform:
+      translate3d(0,-80px,0)
+      rotate(0deg);
+
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  50% {
+
+    transform:
+      translate3d(100px,50vh,0)
+      rotate(180deg);
+  }
+
+  100% {
+
+    transform:
+      translate3d(-120px,110vh,0)
+      rotate(420deg);
+
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   FLOATING HEARTS
+========================================================= */
+
+.heart {
+
+  position: fixed;
+
+  bottom: -50px;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  animation:
+    heartFloat linear forwards;
+
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(255,50,120,.5)
+    );
+}
+
+@keyframes heartFloat {
+
+  0% {
+
+    transform:
+      translateY(0)
+      scale(.5);
+
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  100% {
+
+    transform:
+      translateY(-115vh)
+      scale(1.3);
+
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   BUTTERFLIES
+========================================================= */
+
+.butterfly {
+
+  position: fixed;
+
+  left: -80px;
+
+  z-index: 4;
+
+  font-size: 35px;
+
+  pointer-events: none;
+
+  animation:
+    butterflyFly linear forwards;
+
+  filter:
+    drop-shadow(
+      0 0 10px
+      rgba(255,140,200,.6)
+    );
+}
+
+@keyframes butterflyFly {
+
+  0% {
+
+    transform:
+      translate(0,0)
+      rotate(-10deg);
+
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  25% {
+
+    transform:
+      translate(25vw,-90px)
+      rotate(10deg);
+  }
+
+  50% {
+
+    transform:
+      translate(50vw,70px)
+      rotate(-8deg);
+  }
+
+  75% {
+
+    transform:
+      translate(75vw,-100px)
+      rotate(8deg);
+  }
+
+  100% {
+
+    transform:
+      translate(115vw,30px)
+      rotate(-5deg);
+
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   SPARKLES
+========================================================= */
+
+.sparkle {
+
+  position: fixed;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  font-size: 22px;
+
+  animation:
+    sparkle 1.8s ease-out forwards;
+}
+
+@keyframes sparkle {
+
+  0% {
+
+    transform:
+      scale(0)
+      rotate(0);
+
+    opacity: 0;
+  }
+
+  30% {
+
+    transform:
+      scale(1.5)
+      rotate(90deg);
+
+    opacity: 1;
+  }
+
+  100% {
+
+    transform:
+      scale(0)
+      rotate(180deg);
+
+    opacity: 0;
+  }
+}
+
+
+/* =========================================================
+   SIDE FLOWERS
+========================================================= */
+
+.side-flower {
+
+  position: fixed;
+
+  z-index: 1;
+
+  font-size: 35px;
+
+  opacity: .75;
+
+  animation:
+    sideFlowerFloat 5s
+    ease-in-out infinite;
+}
+
+.left-flower {
+
+  left: 2%;
+
+  bottom: 14%;
+}
+
+.right-flower {
+
+  right: 2%;
+
+  bottom: 22%;
+
+  animation-delay:
+    1.5s;
+}
+
+@keyframes sideFlowerFloat {
+
+  0%,100% {
+
+    transform:
+      translateY(0)
+      rotate(-5deg);
+  }
+
+  50% {
+
+    transform:
+      translateY(-20px)
+      rotate(7deg);
+  }
+}
+
+
+/* =========================================================
+   BOTTOM GARDEN
+========================================================= */
+
+.garden {
+
+  position: fixed;
+
+  left: 0;
+  right: 0;
+  bottom: -5px;
+
+  height: 78px;
+
+  z-index: 3;
+
+  pointer-events: none;
+
+  text-align: center;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  font-size: 35px;
+
+  letter-spacing: 5px;
+
+  text-shadow:
+    0 0 15px
+    rgba(255,80,150,.55);
+}
+
+
+/* =========================================================
+   LOVE LETTER
+========================================================= */
+
+.letter-button {
+
   position: fixed;
 
   right: 25px;
-  bottom: 25px;
 
-  width: 60px;
-  height: 60px;
+  bottom: 95px;
+
+  width: 66px;
+  height: 66px;
 
   border: none;
 
   border-radius: 50%;
 
-  background:
-    rgba(255,255,255,.95);
-
-  font-size: 28px;
-
   cursor: pointer;
 
   z-index: 20;
 
+  font-size: 31px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffffff,
+      #ffd4e2
+    );
+
   box-shadow:
-    0 5px 25px
-    rgba(255,80,130,.4);
+
+    0 0 20px
+    rgba(255,80,140,.65),
+
+    0 0 55px
+    rgba(255,80,140,.25);
 
   animation:
     letterPulse 2s infinite;
-
-  transition: .2s;
-}
-
-.love-letter-button:hover {
-  transform:
-    scale(1.12)
-    rotate(-5deg);
 }
 
 @keyframes letterPulse {
 
-  0%,
-  100% {
-    box-shadow:
-      0 5px 25px
-      rgba(255,80,130,.3);
+  0%,100% {
+    transform: scale(1);
   }
 
   50% {
-    box-shadow:
-      0 5px 35px
-      rgba(255,80,130,.7);
+    transform: scale(1.12);
   }
-
 }
 
-
-/* =================================================
-   LOVE LETTER MODAL
-================================================= */
-
 .letter-overlay {
+
   position: fixed;
 
   inset: 0;
 
-  background:
-    rgba(0,0,0,.75);
-
-  backdrop-filter:
-    blur(8px);
+  z-index: 100;
 
   display: none;
 
@@ -963,16 +1483,21 @@ h1 {
 
   justify-content: center;
 
-  z-index: 30;
-
   padding: 20px;
+
+  background:
+    rgba(0,0,0,.8);
+
+  backdrop-filter:
+    blur(10px);
 }
 
 .letter-overlay.show {
+
   display: flex;
 
   animation:
-    overlayIn .3s ease;
+    overlayIn .3s;
 }
 
 @keyframes overlayIn {
@@ -984,42 +1509,45 @@ h1 {
   to {
     opacity: 1;
   }
-
 }
 
-.love-letter {
+.letter {
+
+  position: relative;
+
   width: 100%;
 
-  max-width: 420px;
+  max-width: 450px;
+
+  padding:
+    40px 28px;
+
+  border-radius: 25px;
+
+  text-align: center;
+
+  color: #481526;
 
   background:
     linear-gradient(
       145deg,
-      #fff7fa,
-      #ffe8ef
+      #ffffff,
+      #ffe3ed
     );
 
-  color: #401524;
-
-  border-radius: 20px;
-
-  padding: 35px 28px;
-
-  text-align: center;
-
-  position: relative;
-
   box-shadow:
-    0 20px 70px
-    rgba(255,80,130,.4);
+    0 25px 90px
+    rgba(255,50,130,.55);
 
   animation:
-    letterOpen .6s cubic-bezier(.17,.67,.3,1.3);
+    letterOpen .7s
+    cubic-bezier(.17,.67,.3,1.3);
 }
 
 @keyframes letterOpen {
 
   from {
+
     transform:
       scale(.5)
       rotate(-8deg);
@@ -1028,73 +1556,111 @@ h1 {
   }
 
   to {
+
     transform:
       scale(1)
       rotate(0);
 
     opacity: 1;
   }
-
 }
 
-.love-letter h2 {
-  margin-top: 0;
+.letter h2 {
 
-  font-size: 27px;
+  font-size: 30px;
+
+  margin:
+    10px 0 15px;
 }
 
-.love-letter p {
+.letter p {
+
   font-size: 18px;
 
   line-height: 1.7;
 }
 
 .close-letter {
+
   position: absolute;
 
   right: 15px;
-  top: 12px;
+  top: 10px;
 
   border: none;
 
   background: transparent;
 
-  font-size: 25px;
+  color: #481526;
+
+  font-size: 28px;
 
   cursor: pointer;
-
-  color: #401524;
 }
 
 
-/* =================================================
+/* =========================================================
    MOBILE
-================================================= */
+========================================================= */
 
 @media(max-width:600px) {
 
+  .container {
+
+    width: 94%;
+
+    margin-top: 25px;
+  }
+
+  h1 {
+
+    font-size: 40px;
+
+    letter-spacing: 2px;
+  }
+
+  .moon {
+
+    width: 60px;
+    height: 60px;
+
+    top: 25px;
+    right: 5%;
+  }
+
+  .bouquet {
+
+    transform:
+      scale(.82);
+
+    margin-top: -10px;
+
+    margin-bottom: -25px;
+  }
+
   .input-area {
+
     flex-direction: column;
   }
 
   #send {
+
     width: 100%;
   }
 
-  h1 {
-    font-size: 38px;
-  }
+  .letter-button {
 
-  .bouquet {
-    transform:
-      scale(.9);
-  }
-
-  .love-letter-button {
     right: 18px;
-    bottom: 18px;
+
+    bottom: 85px;
   }
 
+  .garden {
+
+    font-size: 25px;
+
+    letter-spacing: 1px;
+  }
 }
 
 </style>
@@ -1105,45 +1671,64 @@ h1 {
 <body>
 
 
-<!-- =================================================
-     ROMANTIC ANIMATION LAYER
-================================================= -->
+<!-- =========================================================
+     BACKGROUND
+========================================================= -->
 
-<div id="romanticEffects"></div>
+<div class="moon"></div>
+
+<div id="effects"></div>
+
+<div class="side-flower left-flower">
+🌸
+</div>
+
+<div class="side-flower right-flower">
+🌹
+</div>
 
 
-<!-- =================================================
+<!-- =========================================================
+     BOTTOM FLOWER GARDEN
+========================================================= -->
+
+<div class="garden">
+🌱 🌷 🌸 🌹 🌺 🌷 🌸 🌹 🌺 🌷 🌸 🌹 🌺 🌷 🌸 🌹 🌱
+</div>
+
+
+<!-- =========================================================
      LOVE LETTER BUTTON
-================================================= -->
+========================================================= -->
 
 <button
-class="love-letter-button"
-onclick="openLoveLetter()">
+class="letter-button"
+onclick="openLetter()">
 
 💌
 
 </button>
 
 
-<!-- =================================================
+<!-- =========================================================
      LOVE LETTER
-================================================= -->
+========================================================= -->
 
 <div
 id="letterOverlay"
 class="letter-overlay"
-onclick="closeLoveLetter(event)">
+onclick="closeLetter(event)">
 
-<div class="love-letter">
+<div class="letter">
 
 <button
 class="close-letter"
-onclick="closeLoveLetter()">
+onclick="closeLetter()">
 
 ×
 </button>
 
-<div style="font-size:45px;">
+<div style="font-size:60px;">
 💐
 </div>
 
@@ -1152,23 +1737,28 @@ For Niharika ❤️
 </h2>
 
 <p>
-Hey cutie... 😘
+Hii cutie... 🥺❤️
 </p>
 
 <p>
-If you're reading this,
-just know that someone
-is ridiculously happy
-that you're here.
+If you opened this,
+you officially caught me
+being romantic again. 😘
 </p>
 
 <p>
-Now stop being so cute.
-It's distracting me. 👀❤️
+I don't need a special reason
+to tell you that you're
+pretty damn special to me.
+</p>
+
+<p>
+Now come here...
+I missed you. 🫶
 </p>
 
 <div style="font-size:35px;">
-💕 ✨ 🌹 ✨ 💕
+🌹 ✨ 💕 ✨ 🌹
 </div>
 
 </div>
@@ -1176,24 +1766,35 @@ It's distracting me. 👀❤️
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      MAIN
-================================================= -->
+========================================================= -->
 
 <div class="container">
+
+
+<div class="title-wrap">
 
 <h1>
 ME N U ❤️
 </h1>
+
+</div>
+
 
 <div class="subtitle">
 Prince × Niharika
 </div>
 
 
-<!-- =================================================
+<div class="top-decor">
+✨ 💕 ✨ 🌹 ✨ 💕 ✨
+</div>
+
+
+<!-- =========================================================
      BOUQUET
-================================================= -->
+========================================================= -->
 
 <div class="bouquet">
 
@@ -1202,37 +1803,29 @@ Prince × Niharika
 <div class="stem stem3"></div>
 <div class="stem stem4"></div>
 <div class="stem stem5"></div>
+<div class="stem stem6"></div>
 
-<div class="flower flower1">
-🌹
-</div>
+<div class="leaf leaf1"></div>
+<div class="leaf leaf2"></div>
+<div class="leaf leaf3"></div>
 
-<div class="flower flower2">
-🌷
-</div>
+<div class="bloom b1">🌹</div>
+<div class="bloom b2">🌷</div>
+<div class="bloom b3">🌹</div>
+<div class="bloom b4">🌸</div>
+<div class="bloom b5">🌹</div>
+<div class="bloom b6">🌺</div>
 
-<div class="flower flower3">
-🌹
-</div>
-
-<div class="flower flower4">
-🌸
-</div>
-
-<div class="flower flower5">
-🌹
-</div>
-
-<div class="bouquet-ribbon">
+<div class="ribbon">
 🎀
 </div>
 
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      WELCOME
-================================================= -->
+========================================================= -->
 
 <div id="welcome">
 
@@ -1255,9 +1848,15 @@ Come talk to me, jaan ❤️
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      MICROPHONE
-================================================= -->
+========================================================= -->
+
+<div class="mic-wrap">
+
+<div class="mic-ring"></div>
+
+<div class="mic-ring2"></div>
 
 <button
 id="mic"
@@ -1267,15 +1866,17 @@ onclick="startVoice()">
 
 </button>
 
+</div>
+
 
 <div id="status">
 Ready
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      INPUT
-================================================= -->
+========================================================= -->
 
 <div class="input-area">
 
@@ -1296,9 +1897,9 @@ SEND
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      TRANSCRIPT
-================================================= -->
+========================================================= -->
 
 <div
 id="transcript"
@@ -1313,9 +1914,9 @@ Waiting...
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      ANSWER
-================================================= -->
+========================================================= -->
 
 <div
 id="answer"
@@ -1330,14 +1931,13 @@ Waiting...
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      CONTROLS
-================================================= -->
+========================================================= -->
 
 <div class="controls">
 
 <button
-id="speakButton"
 class="controlButton"
 onclick="speakCurrentAnswer()">
 
@@ -1364,9 +1964,9 @@ onclick="replayAnswer()">
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      SPEED
-================================================= -->
+========================================================= -->
 
 <div class="speed-settings">
 
@@ -1391,9 +1991,9 @@ oninput="updateSpeed()">
 </div>
 
 
-<!-- =================================================
+<!-- =========================================================
      HISTORY
-================================================= -->
+========================================================= -->
 
 <div id="history">
 
@@ -1409,49 +2009,49 @@ CONVERSATION
 <script>
 
 
-// =================================================
-// APPS SCRIPT API
-// =================================================
+/* =========================================================
+   APPS SCRIPT API
+========================================================= */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycbxiC3YhxK0wiWwgFp_Jptmm40vZriJhgGGpo6JhnHTsFG1dQ8kRzIYHfb-Y3IgwNbjWqQ/exec";
 
 
-// =================================================
-// GLOBALS
-// =================================================
+/* =========================================================
+   GLOBAL
+========================================================= */
 
 let currentAnswer = "";
 
 
-// =================================================
-// TAB ANIMATION
-// =================================================
+/* =========================================================
+   TAB ANIMATION
+========================================================= */
 
 const favicon =
 document.getElementById("favicon");
 
 const tabStates = [
 
-{
-  title: "Niharika ❤️",
-  icon: "❤️"
-},
+  {
+    title: "Niharika ❤️",
+    icon: "❤️"
+  },
 
-{
-  title: "Hey cutie 😘",
-  icon: "💗"
-},
+  {
+    title: "Hey cutie 😘",
+    icon: "💗"
+  },
 
-{
-  title: "I missed you 👀",
-  icon: "💕"
-},
+  {
+    title: "I missed you 👀",
+    icon: "💕"
+  },
 
-{
-  title: "ME N U ❤️",
-  icon: "❤️"
-}
+  {
+    title: "ME N U ❤️",
+    icon: "❤️"
+  }
 
 ];
 
@@ -1460,1068 +2060,1099 @@ let tabIndex = 0;
 
 function changeTab() {
 
-const state =
-tabStates[tabIndex];
+  const state =
+    tabStates[tabIndex];
 
-document.title =
-state.title;
+  document.title =
+    state.title;
 
-const svg =
-"<svg xmlns='http://www.w3.org/2000/svg' " +
-"viewBox='0 0 100 100'>" +
+  const svg =
+    "<svg xmlns='http://www.w3.org/2000/svg' " +
+    "viewBox='0 0 100 100'>" +
 
-"<rect width='100' height='100' " +
-"rx='22' fill='%23111'/>" +
+    "<rect width='100' height='100' " +
+    "rx='22' fill='%23111'/>" +
 
-"<text x='50' y='72' " +
-"text-anchor='middle' " +
-"font-size='65'>" +
+    "<text x='50' y='72' " +
+    "text-anchor='middle' " +
+    "font-size='65'>" +
 
-state.icon +
+    state.icon +
 
-"</text>" +
+    "</text>" +
 
-"</svg>";
+    "</svg>";
 
-favicon.href =
-"data:image/svg+xml," +
-encodeURIComponent(svg);
+  favicon.href =
+    "data:image/svg+xml," +
+    encodeURIComponent(svg);
 
-tabIndex++;
+  tabIndex++;
 
-if (
-tabIndex >=
-tabStates.length
-) {
+  if (
+    tabIndex >=
+    tabStates.length
+  ) {
 
-tabIndex = 0;
+    tabIndex = 0;
 
-}
+  }
 
 }
 
 changeTab();
 
 setInterval(
-changeTab,
-2000
+  changeTab,
+  2000
 );
 
 
-// =================================================
-// PETAL GENERATOR
-// =================================================
+/* =========================================================
+   STARS
+========================================================= */
+
+function createStars() {
+
+  for (
+    let i = 0;
+    i < 55;
+    i++
+  ) {
+
+    const star =
+      document.createElement("div");
+
+    star.className =
+      "star";
+
+    star.innerText =
+      "✦";
+
+    star.style.left =
+      Math.random() * 100 + "%";
+
+    star.style.top =
+      Math.random() * 75 + "%";
+
+    star.style.animationDelay =
+      Math.random() * 3 + "s";
+
+    star.style.fontSize =
+      (5 + Math.random() * 8) + "px";
+
+    document.body.appendChild(
+      star
+    );
+
+  }
+
+}
+
+createStars();
+
+
+/* =========================================================
+   FALLING PETALS
+========================================================= */
 
 function createPetal() {
 
-const container =
-document.getElementById(
-"romanticEffects"
-);
+  const petal =
+    document.createElement("div");
 
-const petal =
-document.createElement(
-"div"
-);
+  petal.className =
+    "petal";
 
-petal.className =
-"petal";
+  const flowers = [
+    "🌹",
+    "🌸",
+    "🌷",
+    "🌺",
+    "🌼"
+  ];
 
-const flowers = [
-"🌹",
-"🌸",
-"🌷",
-"🌺",
-"🌼"
-];
+  petal.innerText =
+    flowers[
+      Math.floor(
+        Math.random() *
+        flowers.length
+      )
+    ];
 
-petal.innerText =
-flowers[
-Math.floor(
-Math.random() *
-flowers.length
-)
-];
+  petal.style.left =
+    Math.random() * 100 + "%";
 
-petal.style.left =
-Math.random() * 100 +
-"%";
+  petal.style.fontSize =
+    (17 + Math.random() * 17) + "px";
 
-petal.style.fontSize =
-(14 +
-Math.random() * 14) +
-"px";
+  petal.style.animationDuration =
+    (6 + Math.random() * 7) + "s";
 
-petal.style.animationDuration =
-(7 +
-Math.random() * 6) +
-"s";
+  document.body.appendChild(
+    petal
+  );
 
-container.appendChild(
-petal
-);
-
-setTimeout(
-function() {
-
-petal.remove();
-
-},
-14000
-);
-
+  setTimeout(
+    () => petal.remove(),
+    15000
+  );
 }
 
 setInterval(
-createPetal,
-650
+  createPetal,
+  450
 );
 
 
-// =================================================
-// FLOATING HEARTS
-// =================================================
+/* =========================================================
+   FLOATING HEARTS
+========================================================= */
 
 function createHeart() {
 
-const container =
-document.getElementById(
-"romanticEffects"
-);
+  const heart =
+    document.createElement("div");
 
-const heart =
-document.createElement(
-"div"
-);
+  heart.className =
+    "heart";
 
-heart.className =
-"floating-heart";
+  const hearts = [
+    "❤️",
+    "💕",
+    "💗",
+    "💖",
+    "🩷",
+    "💘"
+  ];
 
-const hearts = [
-"❤️",
-"💕",
-"💗",
-"💖",
-"🩷"
-];
+  heart.innerText =
+    hearts[
+      Math.floor(
+        Math.random() *
+        hearts.length
+      )
+    ];
 
-heart.innerText =
-hearts[
-Math.floor(
-Math.random() *
-hearts.length
-)
-];
+  heart.style.left =
+    Math.random() * 100 + "%";
 
-heart.style.left =
-Math.random() * 100 +
-"%";
+  heart.style.fontSize =
+    (14 + Math.random() * 20) + "px";
 
-heart.style.fontSize =
-(12 +
-Math.random() * 14) +
-"px";
+  heart.style.animationDuration =
+    (6 + Math.random() * 5) + "s";
 
-heart.style.animationDuration =
-(6 +
-Math.random() * 5) +
-"s";
+  document.body.appendChild(
+    heart
+  );
 
-container.appendChild(
-heart
-);
-
-setTimeout(
-function() {
-
-heart.remove();
-
-},
-12000
-);
-
+  setTimeout(
+    () => heart.remove(),
+    13000
+  );
 }
 
 setInterval(
-createHeart,
-1500
+  createHeart,
+  900
 );
 
 
-// =================================================
-// SPARKLES
-// =================================================
+/* =========================================================
+   SPARKLES
+========================================================= */
 
 function createSparkle() {
 
-const container =
-document.getElementById(
-"romanticEffects"
-);
+  const sparkle =
+    document.createElement("div");
 
-const sparkle =
-document.createElement(
-"div"
-);
+  sparkle.className =
+    "sparkle";
 
-sparkle.className =
-"sparkle";
+  sparkle.innerText =
+    Math.random() > .5
+      ? "✨"
+      : "✦";
 
-sparkle.innerText =
-"✨";
+  sparkle.style.left =
+    Math.random() * 100 + "%";
 
-sparkle.style.left =
-Math.random() * 100 +
-"%";
+  sparkle.style.top =
+    Math.random() * 90 + "%";
 
-sparkle.style.top =
-Math.random() * 100 +
-"%";
+  document.body.appendChild(
+    sparkle
+  );
 
-sparkle.style.fontSize =
-(10 +
-Math.random() * 12) +
-"px";
-
-container.appendChild(
-sparkle
-);
-
-setTimeout(
-function() {
-
-sparkle.remove();
-
-},
-2000
-);
-
+  setTimeout(
+    () => sparkle.remove(),
+    2000
+  );
 }
 
 setInterval(
-createSparkle,
-900
+  createSparkle,
+  600
 );
 
 
-// =================================================
-// BUTTERFLIES
-// =================================================
+/* =========================================================
+   BUTTERFLIES
+========================================================= */
 
 function createButterfly() {
 
-const container =
-document.getElementById(
-"romanticEffects"
-);
+  const butterfly =
+    document.createElement("div");
 
-const butterfly =
-document.createElement(
-"div"
-);
+  butterfly.className =
+    "butterfly";
 
-butterfly.className =
-"butterfly";
+  butterfly.innerText =
+    "🦋";
 
-const butterflies = [
-"🦋",
-"🦋",
-"🦋"
-];
+  butterfly.style.top =
+    (15 + Math.random() * 65) + "%";
 
-butterfly.innerText =
-butterflies[
-Math.floor(
-Math.random() *
-butterflies.length
-)
-];
+  butterfly.style.fontSize =
+    (25 + Math.random() * 18) + "px";
 
-butterfly.style.top =
-(15 +
-Math.random() * 65) +
-"%";
+  butterfly.style.animationDuration =
+    (8 + Math.random() * 5) + "s";
 
-butterfly.style.fontSize =
-(22 +
-Math.random() * 16) +
-"px";
+  document.body.appendChild(
+    butterfly
+  );
 
-butterfly.style.animationDuration =
-(8 +
-Math.random() * 5) +
-"s";
-
-container.appendChild(
-butterfly
-);
-
-setTimeout(
-function() {
-
-butterfly.remove();
-
-},
-15000
-);
-
+  setTimeout(
+    () => butterfly.remove(),
+    15000
+  );
 }
-
-
-// only occasionally
 
 setInterval(
-function() {
-
-if (
-Math.random() <
-0.45
-) {
-
-createButterfly();
-
-}
-
-},
-7000
+  createButterfly,
+  6500
 );
 
 
-// =================================================
-// LOVE LETTER
-// =================================================
+/* =========================================================
+   LOVE LETTER
+========================================================= */
 
-function openLoveLetter() {
+function openLetter() {
 
-const overlay =
-document.getElementById(
-"letterOverlay"
-);
+  document
+    .getElementById("letterOverlay")
+    .classList.add("show");
 
-overlay.classList.add(
-"show"
-);
+  for (
+    let i = 0;
+    i < 15;
+    i++
+  ) {
 
-createLetterSparkles();
+    setTimeout(
+      createSparkle,
+      i * 70
+    );
 
-}
-
-
-function closeLoveLetter(event) {
-
-if (
-event &&
-event.target !==
-document.getElementById(
-"letterOverlay"
-)
-) {
-
-return;
-
-}
-
-document
-.getElementById(
-"letterOverlay"
-)
-.classList.remove(
-"show"
-);
+  }
 
 }
 
 
-function createLetterSparkles() {
+function closeLetter(event) {
 
-for (
-let i = 0;
-i < 12;
-i++
-) {
+  if (
+    event &&
+    event.target !==
+    document.getElementById(
+      "letterOverlay"
+    )
+  ) {
 
-setTimeout(
-createSparkle,
-i * 100
-);
+    return;
+
+  }
+
+  document
+    .getElementById("letterOverlay")
+    .classList.remove("show");
 
 }
 
-}
 
-
-// =================================================
-// TEXT SEND
-// =================================================
+/* =========================================================
+   SEND TEXT
+========================================================= */
 
 function sendText() {
 
-const input =
-document.getElementById(
-"question"
-);
+  const input =
+    document.getElementById(
+      "question"
+    );
 
-const question =
-input.value.trim();
+  const question =
+    input.value.trim();
 
-if (!question) {
+  if (!question) {
 
-setStatus(
-"⚠️ Say something first."
-);
+    setStatus(
+      "⚠️ Say something first."
+    );
 
-return;
+    return;
+  }
 
-}
-
-sendToAI(
-question
-);
+  sendToAI(question);
 
 }
 
 
-// =================================================
-// VOICE RECOGNITION
-// =================================================
+/* =========================================================
+   VOICE RECOGNITION
+========================================================= */
 
 function startVoice() {
 
-const SpeechRecognition =
-window.SpeechRecognition ||
-window.webkitSpeechRecognition;
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
-if (!SpeechRecognition) {
+  if (!SpeechRecognition) {
 
-setStatus(
-"❌ Voice recognition unavailable."
-);
+    setStatus(
+      "❌ Voice recognition unavailable."
+    );
 
-return;
+    return;
+  }
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang =
+    "en-IN";
+
+  recognition.continuous =
+    false;
+
+  recognition.interimResults =
+    false;
+
+  recognition.maxAlternatives =
+    1;
+
+  const mic =
+    document.getElementById(
+      "mic"
+    );
+
+  mic.classList.add(
+    "listening"
+  );
+
+  setStatus(
+    "🎙️ Listening..."
+  );
+
+  try {
+
+    recognition.start();
+
+  }
+
+  catch(error) {
+
+    mic.classList.remove(
+      "listening"
+    );
+
+    setStatus(
+      "❌ Could not start microphone."
+    );
+
+    return;
+
+  }
+
+
+  recognition.onresult =
+    function(event) {
+
+      const question =
+        event
+          .results[0][0]
+          .transcript
+          .trim();
+
+      document
+        .getElementById(
+          "question"
+        )
+        .value =
+          question;
+
+      document
+        .getElementById(
+          "transcript"
+        )
+        .innerHTML =
+          "<div class='label'>YOU</div>" +
+          escapeHTML(question);
+
+      setStatus(
+        "✏️ Edit if needed, then press SEND."
+      );
+
+    };
+
+
+  recognition.onerror =
+    function(event) {
+
+      setStatus(
+        "❌ Voice error: " +
+        event.error
+      );
+
+    };
+
+
+  recognition.onend =
+    function() {
+
+      mic.classList.remove(
+        "listening"
+      );
+
+    };
 
 }
 
-const recognition =
-new SpeechRecognition();
 
-recognition.lang =
-"en-IN";
-
-recognition.continuous =
-false;
-
-recognition.interimResults =
-false;
-
-recognition.maxAlternatives =
-1;
-
-const mic =
-document.getElementById(
-"mic"
-);
-
-mic.classList.add(
-"listening"
-);
-
-setStatus(
-"🎙️ Listening..."
-);
-
-try {
-
-recognition.start();
-
-}
-
-catch(error) {
-
-mic.classList.remove(
-"listening"
-);
-
-setStatus(
-"❌ Could not start microphone."
-);
-
-return;
-
-}
-
-recognition.onresult =
-function(event) {
-
-const question =
-event
-.results[0][0]
-.transcript
-.trim();
-
-document
-.getElementById(
-"question"
-)
-.value =
-question;
-
-document
-.getElementById(
-"transcript"
-)
-.innerHTML =
-"<div class='label'>YOU</div>" +
-escapeHTML(
-question
-);
-
-setStatus(
-"✏️ Edit if needed, then press SEND."
-);
-
-};
-
-recognition.onerror =
-function(event) {
-
-setStatus(
-"❌ Voice error: " +
-event.error
-);
-
-};
-
-recognition.onend =
-function() {
-
-mic.classList.remove(
-"listening"
-);
-
-};
-
-}
-
-
-// =================================================
-// SEND TO AI
-// =================================================
+/* =========================================================
+   SEND TO AI
+========================================================= */
 
 async function sendToAI(
-question
+  question
 ) {
 
-try {
+  try {
 
-setThinking(true);
+    setThinking(true);
 
-document
-.getElementById(
-"transcript"
-)
-.innerHTML =
-"<div class='label'>YOU</div>" +
-escapeHTML(
-question
-);
+    document
+      .getElementById(
+        "transcript"
+      )
+      .innerHTML =
+        "<div class='label'>YOU</div>" +
+        escapeHTML(question);
 
-document
-.getElementById(
-"answer"
-)
-.innerHTML =
-"<div class='label'>ME N U</div>" +
-"Thinking";
+    document
+      .getElementById(
+        "answer"
+      )
+      .innerHTML =
+        "<div class='label'>ME N U</div>" +
+        "Thinking";
 
-const response =
-await fetch(
-API_URL,
-{
+    const response =
+      await fetch(
+        API_URL,
+        {
 
-method: "POST",
+          method: "POST",
 
-headers: {
+          headers: {
 
-"Content-Type":
-"text/plain;charset=utf-8"
+            "Content-Type":
+              "text/plain;charset=utf-8"
 
-},
+          },
 
-body:
-JSON.stringify({
+          body:
+            JSON.stringify({
 
-question:
-question
+              question:
+                question
 
-})
+            })
+
+        }
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Server error: " +
+        response.status
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.error ||
+        "Unknown server error"
+      );
+
+    }
+
+
+    const answer =
+      data.answer ||
+      data.message ||
+      "No answer received.";
+
+
+    currentAnswer =
+      answer;
+
+
+    const answerBox =
+      document.getElementById(
+        "answer"
+      );
+
+
+    answerBox.innerHTML =
+      "<div class='label'>ME N U</div>" +
+      escapeHTML(answer);
+
+
+    answerBox.classList.remove(
+      "answer-glow"
+    );
+
+    void answerBox.offsetWidth;
+
+    answerBox.classList.add(
+      "answer-glow"
+    );
+
+
+    addHistory(
+      question,
+      answer
+    );
+
+
+    setThinking(false);
+
+
+    setStatus(
+      "✅ Answer received."
+    );
+
+
+    /* romantic celebration */
+
+    for (
+      let i = 0;
+      i < 18;
+      i++
+    ) {
+
+      setTimeout(
+        createSparkle,
+        i * 60
+      );
+
+    }
+
+    for (
+      let i = 0;
+      i < 5;
+      i++
+    ) {
+
+      setTimeout(
+        createHeart,
+        i * 150
+      );
+
+    }
+
+  }
+
+  catch(error) {
+
+    setThinking(false);
+
+    document
+      .getElementById(
+        "answer"
+      )
+      .innerHTML =
+        "<div class='label'>ERROR</div>" +
+        escapeHTML(
+          error.message
+        );
+
+    setStatus(
+      "❌ " +
+      error.message
+    );
+
+  }
 
 }
-);
-
-if (!response.ok) {
-
-throw new Error(
-"Server error: " +
-response.status
-);
-
-}
-
-const data =
-await response.json();
-
-if (!data.success) {
-
-throw new Error(
-data.error ||
-"Unknown server error"
-);
-
-}
-
-const answer =
-data.answer ||
-data.message ||
-"No answer received.";
-
-currentAnswer =
-answer;
-
-document
-.getElementById(
-"answer"
-)
-.innerHTML =
-"<div class='label'>ME N U</div>" +
-escapeHTML(
-answer
-);
-
-addHistory(
-question,
-answer
-);
-
-setThinking(false);
-
-setStatus(
-"✅ Answer received."
-);
-
-}
-
-catch(error) {
-
-setThinking(false);
-
-document
-.getElementById(
-"answer"
-)
-.innerHTML =
-"<div class='label'>ERROR</div>" +
-escapeHTML(
-error.message
-);
-
-setStatus(
-"❌ " +
-error.message
-);
-
-}
-
-}
 
 
-// =================================================
-// THINKING
-// =================================================
+/* =========================================================
+   THINKING
+========================================================= */
 
 function setThinking(
-thinking
+  thinking
 ) {
 
-const status =
-document.getElementById(
-"status"
-);
+  const status =
+    document.getElementById(
+      "status"
+    );
 
-if (thinking) {
+  if (thinking) {
 
-status.classList.add(
-"thinking"
-);
+    status.classList.add(
+      "thinking"
+    );
 
-status.innerText =
-"🧠 Thinking";
+    status.innerText =
+      "🧠 Thinking";
+
+  }
+
+  else {
+
+    status.classList.remove(
+      "thinking"
+    );
+
+  }
 
 }
 
-else {
 
-status.classList.remove(
-"thinking"
-);
-
-}
-
-}
-
-
-// =================================================
-// SPEAK
-// =================================================
+/* =========================================================
+   SPEAK CURRENT ANSWER
+========================================================= */
 
 function speakCurrentAnswer() {
 
-if (
-!window.speechSynthesis ||
-!window.SpeechSynthesisUtterance
-) {
+  if (
+    !window.speechSynthesis ||
+    !window.SpeechSynthesisUtterance
+  ) {
 
-setStatus(
-"❌ Text-to-speech unavailable."
-);
+    setStatus(
+      "❌ Text-to-speech unavailable."
+    );
 
-return;
+    return;
+  }
+
+
+  let text =
+    currentAnswer;
+
+
+  if (!text) {
+
+    const answerElement =
+      document.getElementById(
+        "answer"
+      );
+
+    text =
+      answerElement.innerText
+        .replace(
+          "ME N U",
+          ""
+        )
+        .trim();
+
+  }
+
+
+  if (
+    !text ||
+    text === "Waiting..." ||
+    text === "Thinking"
+  ) {
+
+    setStatus(
+      "⚠️ Nothing to speak yet."
+    );
+
+    return;
+
+  }
+
+
+  stopSpeaking();
+
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+
+  /*
+    No voice selector.
+    Browser automatically chooses
+    the best available voice.
+  */
+
+  utterance.lang =
+    "en-IN";
+
+
+  utterance.rate =
+    parseFloat(
+      document
+        .getElementById(
+          "speed"
+        )
+        .value
+    );
+
+
+  utterance.pitch =
+    1;
+
+  utterance.volume =
+    1;
+
+
+  utterance.onstart =
+    function() {
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+      status.classList.add(
+        "speaking"
+      );
+
+      status.innerText =
+        "🔊 Speaking...";
+
+    };
+
+
+  utterance.onend =
+    function() {
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+      status.classList.remove(
+        "speaking"
+      );
+
+      status.innerText =
+        "Ready";
+
+    };
+
+
+  utterance.onerror =
+    function(event) {
+
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+      status.classList.remove(
+        "speaking"
+      );
+
+      status.innerText =
+        "❌ Speech error: " +
+        event.error;
+
+    };
+
+
+  window
+    .speechSynthesis
+    .speak(
+      utterance
+    );
 
 }
 
-let text =
-currentAnswer;
 
-if (!text) {
-
-const answerElement =
-document.getElementById(
-"answer"
-);
-
-text =
-answerElement.innerText
-.replace(
-"ME N U",
-""
-)
-.trim();
-
-}
-
-if (
-!text ||
-text === "Waiting..." ||
-text === "Thinking"
-) {
-
-setStatus(
-"⚠️ Nothing to speak yet."
-);
-
-return;
-
-}
-
-stopSpeaking();
-
-const utterance =
-new SpeechSynthesisUtterance(
-text
-);
-
-utterance.rate =
-parseFloat(
-document
-.getElementById(
-"speed"
-)
-.value
-);
-
-utterance.pitch =
-1;
-
-utterance.volume =
-1;
-
-utterance.onstart =
-function() {
-
-const status =
-document.getElementById(
-"status"
-);
-
-status.classList.add(
-"speaking"
-);
-
-status.innerText =
-"🔊 Speaking...";
-
-};
-
-utterance.onend =
-function() {
-
-const status =
-document.getElementById(
-"status"
-);
-
-status.classList.remove(
-"speaking"
-);
-
-status.innerText =
-"Ready";
-
-};
-
-utterance.onerror =
-function(event) {
-
-const status =
-document.getElementById(
-"status"
-);
-
-status.classList.remove(
-"speaking"
-);
-
-status.innerText =
-"❌ Speech error: " +
-event.error;
-
-};
-
-window
-.speechSynthesis
-.speak(
-utterance
-);
-
-}
-
-
-// =================================================
-// STOP
-// =================================================
+/* =========================================================
+   STOP SPEAKING
+========================================================= */
 
 function stopSpeaking() {
 
-if (
-window.speechSynthesis
-) {
+  if (
+    window.speechSynthesis
+  ) {
 
-window
-.speechSynthesis
-.cancel();
+    window
+      .speechSynthesis
+      .cancel();
+
+  }
+
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+  status.classList.remove(
+    "speaking"
+  );
 
 }
 
-const status =
-document.getElementById(
-"status"
-);
 
-status.classList.remove(
-"speaking"
-);
-
-}
-
-
-// =================================================
-// REPLAY
-// =================================================
+/* =========================================================
+   REPLAY
+========================================================= */
 
 function replayAnswer() {
 
-if (!currentAnswer) {
+  if (!currentAnswer) {
 
-setStatus(
-"⚠️ No answer to replay."
-);
+    setStatus(
+      "⚠️ No answer to replay."
+    );
 
-return;
+    return;
+  }
+
+  speakCurrentAnswer();
 
 }
 
-speakCurrentAnswer();
 
-}
-
-
-// =================================================
-// SPEED
-// =================================================
+/* =========================================================
+   SPEED
+========================================================= */
 
 function updateSpeed() {
 
-const speed =
-document.getElementById(
-"speed"
-).value;
+  const speed =
+    document
+      .getElementById(
+        "speed"
+      )
+      .value;
 
-document
-.getElementById(
-"speedValue"
-)
-.innerText =
-speed;
+
+  document
+    .getElementById(
+      "speedValue"
+    )
+    .innerText =
+      speed;
 
 }
 
 
-// =================================================
-// HISTORY
-// =================================================
+/* =========================================================
+   HISTORY
+========================================================= */
 
 function addHistory(
-question,
-answer
+  question,
+  answer
 ) {
 
-const history =
-document.getElementById(
-"history"
-);
+  const history =
+    document.getElementById(
+      "history"
+    );
 
-const item =
-document.createElement(
-"div"
-);
 
-item.className =
-"history-item";
+  const item =
+    document.createElement(
+      "div"
+    );
 
-item.innerHTML =
 
-"<div class='history-user'>" +
-"❤️ Niharika: " +
-escapeHTML(
-question
-) +
-"</div>" +
+  item.className =
+    "history-item";
 
-"<div class='history-ai'>" +
-"😘 Prince: " +
-escapeHTML(
-answer
-) +
-"</div>";
 
-history.appendChild(
-item
-);
+  item.innerHTML =
 
-while (
-history.children.length >
-21
-) {
+    "<div class='history-user'>" +
 
-history.removeChild(
-history.children[1]
-);
+    "❤️ Niharika: " +
+
+    escapeHTML(
+      question
+    ) +
+
+    "</div>" +
+
+    "<div class='history-ai'>" +
+
+    "😘 Prince: " +
+
+    escapeHTML(
+      answer
+    ) +
+
+    "</div>";
+
+
+  history.appendChild(
+    item
+  );
+
+
+  while (
+    history.children.length >
+    21
+  ) {
+
+    history.removeChild(
+      history.children[1]
+    );
+
+  }
 
 }
 
-}
 
-
-// =================================================
-// ESCAPE HTML
-// =================================================
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
 
 function escapeHTML(
-text
+  text
 ) {
 
-return String(text)
+  return String(text)
 
-.replace(
-/&/g,
-"&amp;"
-)
+    .replace(
+      /&/g,
+      "&amp;"
+    )
 
-.replace(
-/</g,
-"&lt;"
-)
+    .replace(
+      /</g,
+      "&lt;"
+    )
 
-.replace(
-/>/g,
-"&gt;"
-)
+    .replace(
+      />/g,
+      "&gt;"
+    )
 
-.replace(
-/"/g,
-"&quot;"
-)
+    .replace(
+      /"/g,
+      "&quot;"
+    )
 
-.replace(
-/'/g,
-"&#039;"
-)
+    .replace(
+      /'/g,
+      "&#039;"
+    )
 
-.replace(
-/\n/g,
-"<br>"
-);
+    .replace(
+      /\n/g,
+      "<br>"
+    );
 
 }
 
 
-// =================================================
-// STATUS
-// =================================================
+/* =========================================================
+   STATUS
+========================================================= */
 
 function setStatus(
-text
+  text
 ) {
 
-const status =
-document.getElementById(
-"status"
-);
+  const status =
+    document.getElementById(
+      "status"
+    );
 
-status.classList.remove(
-"thinking"
-);
+  status.classList.remove(
+    "thinking"
+  );
 
-status.innerText =
-text;
+  status.innerText =
+    text;
 
 }
 
 
-// =================================================
-// ENTER KEY
-// =================================================
+/* =========================================================
+   ENTER KEY
+========================================================= */
 
 document
-.getElementById(
-"question"
-)
-.addEventListener(
-"keydown",
-function(event) {
+  .getElementById(
+    "question"
+  )
+  .addEventListener(
+    "keydown",
+    function(event) {
 
-if (
-event.key ===
-"Enter"
+      if (
+        event.key ===
+        "Enter"
+      ) {
+
+        event.preventDefault();
+
+        sendText();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   START-UP EFFECTS
+========================================================= */
+
+for (
+  let i = 0;
+  i < 8;
+  i++
 ) {
 
-event.preventDefault();
-
-sendText();
+  setTimeout(
+    createSparkle,
+    i * 300
+  );
 
 }
-
-}
-);
 
 </script>
 
