@@ -243,7 +243,7 @@ h1 {
   margin-top: 15px;
 }
 
-.voice-settings {
+.speed-settings {
   margin-top: 18px;
   padding: 15px;
   background: rgba(34,34,34,.8);
@@ -251,14 +251,13 @@ h1 {
   text-align: left;
 }
 
-.voice-settings label {
+.speed-settings label {
   display: block;
   margin-bottom: 10px;
   font-size: 14px;
 }
 
-.voice-settings select,
-.voice-settings input {
+.speed-settings input {
   width: 100%;
   margin-top: 5px;
 }
@@ -419,21 +418,7 @@ onclick="replayAnswer()">
 
 </div>
 
-<div class="voice-settings">
-
-<label>
-
-🔊 Voice
-
-<select id="voiceSelect">
-
-<option>
-Loading voices...
-</option>
-
-</select>
-
-</label>
+<div class="speed-settings">
 
 <label>
 
@@ -480,8 +465,6 @@ const API_URL =
 // =================================================
 
 let currentAnswer = "";
-
-let voices = [];
 
 
 // =================================================
@@ -934,69 +917,6 @@ function speakCurrentAnswer() {
       text
     );
 
-  const selectedVoice =
-    document
-      .getElementById(
-        "voiceSelect"
-      )
-      .value;
-
-
-  // =================================================
-  // HINDI DEFAULT OPTION
-  // =================================================
-
-  if (
-    selectedVoice ===
-    "__HINDI_DEFAULT__"
-  ) {
-
-    utterance.lang =
-      "hi-IN";
-
-  }
-
-
-  // =================================================
-  // FIND ACTUAL SELECTED VOICE
-  // =================================================
-
-  else {
-
-    const selected =
-      voices.find(
-        function(voice) {
-
-          return voice.name ===
-            selectedVoice;
-
-        }
-      );
-
-
-    if (selected) {
-
-      utterance.voice =
-        selected;
-
-      utterance.lang =
-        selected.lang;
-
-    }
-
-
-    // Safety fallback
-
-    else {
-
-      utterance.lang =
-        "en-IN";
-
-    }
-
-  }
-
-
   utterance.rate =
     parseFloat(
       document
@@ -1122,212 +1042,6 @@ function replayAnswer() {
   }
 
   speakCurrentAnswer();
-
-}
-
-
-// =================================================
-// LOAD VOICES
-// =================================================
-
-function loadVoices() {
-
-  if (
-    !window.speechSynthesis
-  ) {
-
-    return;
-
-  }
-
-  voices =
-    window
-      .speechSynthesis
-      .getVoices();
-
-
-  const select =
-    document.getElementById(
-      "voiceSelect"
-    );
-
-
-  select.innerHTML =
-    "";
-
-
-  // =================================================
-  // ENGLISH VOICES
-  // =================================================
-
-  const englishGroup =
-    document.createElement(
-      "optgroup"
-    );
-
-  englishGroup.label =
-    "🇬🇧 English Voices";
-
-
-  const englishVoices =
-    voices.filter(
-      function(voice) {
-
-        return voice.lang
-          .toLowerCase()
-          .startsWith("en");
-
-      }
-    );
-
-
-  englishVoices.forEach(
-    function(voice) {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-      option.value =
-        voice.name;
-
-      option.textContent =
-        voice.name +
-        " (" +
-        voice.lang +
-        ")";
-
-      englishGroup.appendChild(
-        option
-      );
-
-    }
-  );
-
-
-  select.appendChild(
-    englishGroup
-  );
-
-
-  // =================================================
-  // HINDI VOICES
-  // =================================================
-
-  const hindiGroup =
-    document.createElement(
-      "optgroup"
-    );
-
-  hindiGroup.label =
-    "🇮🇳 Hindi Voices";
-
-
-  const hindiVoices =
-    voices.filter(
-      function(voice) {
-
-        return voice.lang
-          .toLowerCase()
-          .startsWith("hi");
-
-      }
-    );
-
-
-  hindiVoices.forEach(
-    function(voice) {
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-      option.value =
-        voice.name;
-
-      option.textContent =
-        voice.name +
-        " (" +
-        voice.lang +
-        ")";
-
-      hindiGroup.appendChild(
-        option
-      );
-
-    }
-  );
-
-
-  // =================================================
-  // HINDI FALLBACK
-  // =================================================
-
-  if (
-    hindiVoices.length === 0
-  ) {
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value =
-      "__HINDI_DEFAULT__";
-
-    option.textContent =
-      "🇮🇳 Hindi — Browser Default (hi-IN)";
-
-    hindiGroup.appendChild(
-      option
-    );
-
-  }
-
-
-  select.appendChild(
-    hindiGroup
-  );
-
-
-  // =================================================
-  // DEFAULT ENGLISH VOICE
-  // =================================================
-
-  const indianVoice =
-    voices.find(
-      function(voice) {
-
-        return voice.lang
-          .toLowerCase()
-          .includes("en-in");
-
-      }
-    );
-
-
-  if (indianVoice) {
-
-    select.value =
-      indianVoice.name;
-
-  }
-
-}
-
-
-if (
-  window.speechSynthesis
-) {
-
-  loadVoices();
-
-  window
-    .speechSynthesis
-    .onvoiceschanged =
-      loadVoices;
 
 }
 
