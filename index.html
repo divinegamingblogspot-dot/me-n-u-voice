@@ -429,35 +429,21 @@ function showAnswer(text) {
 
 function speak(text) {
 
-  // Check if browser supports speech synthesis
+  const synth =
+    window.speechSynthesis;
+
+
+  // Browser does not provide speech synthesis
   if (
-    !(
-      "speechSynthesis" in window
-    )
+    !synth ||
+    typeof synth.speak !== "function"
   ) {
 
     setStatus(
-      "⚠️ Text-to-speech not supported"
+      "⚠️ Text-to-speech unavailable in this browser"
     );
 
     return;
-
-  }
-
-
-  // Safely cancel previous speech
-  try {
-
-    window.speechSynthesis.cancel();
-
-  }
-
-  catch(error) {
-
-    console.log(
-      "Speech cancel error:",
-      error
-    );
 
   }
 
@@ -484,6 +470,16 @@ function speak(text) {
     1;
 
 
+  utterance.onstart =
+    function() {
+
+      setStatus(
+        "🔊 Speaking..."
+      );
+
+    };
+
+
   utterance.onend =
     function() {
 
@@ -507,11 +503,9 @@ function speak(text) {
 
   try {
 
-    window
-      .speechSynthesis
-      .speak(
-        utterance
-      );
+    synth.speak(
+      utterance
+    );
 
   }
 
