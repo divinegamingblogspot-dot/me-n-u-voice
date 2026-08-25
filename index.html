@@ -165,7 +165,7 @@ Waiting...
 <script>
 
 // =================================================
-// YOUR APPS SCRIPT URL
+// APPS SCRIPT URL
 // =================================================
 
 const API_URL =
@@ -173,7 +173,7 @@ const API_URL =
 
 
 // =================================================
-// VOICE
+// VOICE RECOGNITION
 // =================================================
 
 function startVoice() {
@@ -275,7 +275,7 @@ function startVoice() {
 
 
 // =================================================
-// SEND QUESTION
+// SEND QUESTION TO ME N U
 // =================================================
 
 async function sendToAI(question) {
@@ -296,12 +296,23 @@ async function sendToAI(question) {
 
           body: JSON.stringify({
 
-            question: question
+            question:
+              question
 
           })
 
         }
       );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Server error: " +
+        response.status
+      );
+
+    }
 
 
     const data =
@@ -312,21 +323,59 @@ async function sendToAI(question) {
 
       throw new Error(
         data.error ||
-        "AI request failed"
+        "ME N U request failed"
       );
 
     }
 
 
+    // =================================================
+    // ACTION RESPONSE
+    // =================================================
+
+    if (
+      data.isAction === true
+    ) {
+
+      const actionAnswer =
+        data.message ||
+        data.answer ||
+        "Action completed.";
+
+
+      showAnswer(
+        actionAnswer
+      );
+
+
+      setStatus(
+        "🔊 Speaking..."
+      );
+
+
+      speak(
+        actionAnswer
+      );
+
+
+      return;
+
+    }
+
+
+    // =================================================
+    // NORMAL AI RESPONSE
+    // =================================================
+
     const answer =
-      data.answer;
+      data.answer ||
+      data.message ||
+      "I didn't receive an answer.";
 
 
-    document
-      .getElementById("answer")
-      .innerHTML =
-        '<div class="label">ME N U</div>' +
-        answer;
+    showAnswer(
+      answer
+    );
 
 
     setStatus(
@@ -334,10 +383,20 @@ async function sendToAI(question) {
     );
 
 
-    speak(answer);
+    speak(
+      answer
+    );
 
 
-  } catch(error) {
+  }
+
+  catch(error) {
+
+    showAnswer(
+      "❌ " +
+      error.message
+    );
+
 
     setStatus(
       "❌ " +
@@ -345,6 +404,21 @@ async function sendToAI(question) {
     );
 
   }
+
+}
+
+
+// =================================================
+// DISPLAY ANSWER
+// =================================================
+
+function showAnswer(text) {
+
+  document
+    .getElementById("answer")
+    .innerHTML =
+      '<div class="label">ME N U</div>' +
+      escapeHTML(text);
 
 }
 
@@ -396,6 +470,47 @@ function speak(text) {
     .speechSynthesis
     .speak(
       utterance
+    );
+
+}
+
+
+// =================================================
+// SAFE HTML DISPLAY
+// =================================================
+
+function escapeHTML(text) {
+
+  return String(text)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    )
+
+    .replace(
+      /\n/g,
+      "<br>"
     );
 
 }
