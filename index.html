@@ -6,172 +6,93 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-      content="width=device-width, initial-scale=1">
+content="width=device-width, initial-scale=1">
 
 <title>ME N U</title>
 
 <style>
 
-* {
-  box-sizing: border-box;
-}
-
 body {
-
   margin: 0;
-
   min-height: 100vh;
-
-  display: flex;
-
-  justify-content: center;
-
-  align-items: center;
-
-  font-family: Arial, sans-serif;
-
   background: #111;
-
   color: white;
-
+  font-family: Arial, sans-serif;
 }
 
 .container {
-
-  width: 92%;
-
+  width: 90%;
   max-width: 600px;
-
+  margin: 50px auto;
   text-align: center;
-
 }
 
 h1 {
-
   font-size: 42px;
-
-  margin-bottom: 5px;
-
 }
-
-.subtitle {
-
-  opacity: .55;
-
-  margin-bottom: 30px;
-
-}
-
-
-/* ================================
-   VOICE BUTTON
-================================ */
-
-#mic {
-
-  width: 130px;
-
-  height: 130px;
-
-  border-radius: 50%;
-
-  border: none;
-
-  font-size: 55px;
-
-  cursor: pointer;
-
-  margin-bottom: 20px;
-
-}
-
-#mic:active {
-
-  transform: scale(.95);
-
-}
-
-
-/* ================================
-   STATUS
-================================ */
 
 #status {
-
-  margin: 15px 0;
-
-  font-size: 17px;
-
+  margin: 20px;
 }
 
-
-/* ================================
-   TEXT INPUT
-================================ */
+#mic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: none;
+  font-size: 50px;
+  cursor: pointer;
+}
 
 .input-area {
-
   display: flex;
-
   gap: 10px;
-
-  margin-top: 20px;
-
+  margin-top: 30px;
 }
 
 #question {
 
   flex: 1;
 
-  padding: 16px;
+  padding: 15px;
 
-  border-radius: 12px;
+  font-size: 18px;
 
-  border: none;
+  border-radius: 10px;
 
-  outline: none;
-
-  font-size: 16px;
+  border: 1px solid #555;
 
   background: #222;
 
   color: white;
 
-}
+  outline: none;
 
+}
 
 #send {
 
-  padding: 0 20px;
+  padding: 15px 20px;
 
   border: none;
 
-  border-radius: 12px;
+  border-radius: 10px;
 
   cursor: pointer;
 
-  font-weight: bold;
-
 }
 
-
-/* ================================
-   CARDS
-================================ */
-
 .card {
+
+  background: #222;
 
   margin-top: 20px;
 
   padding: 20px;
 
-  border-radius: 15px;
-
-  background: #222;
+  border-radius: 12px;
 
   text-align: left;
-
-  min-height: 60px;
 
 }
 
@@ -181,75 +102,7 @@ h1 {
 
   opacity: .5;
 
-  margin-bottom: 8px;
-
-}
-
-
-/* ================================
-   BUTTONS
-================================ */
-
-.quick-buttons {
-
-  display: flex;
-
-  gap: 10px;
-
-  margin-top: 15px;
-
-  flex-wrap: wrap;
-
-  justify-content: center;
-
-}
-
-.quick-buttons button {
-
-  padding: 10px 14px;
-
-  border-radius: 10px;
-
-  border: none;
-
-  cursor: pointer;
-
-}
-
-
-/* ================================
-   MOBILE
-================================ */
-
-@media (max-width: 500px) {
-
-  h1 {
-
-    font-size: 34px;
-
-  }
-
-  #mic {
-
-    width: 110px;
-
-    height: 110px;
-
-    font-size: 45px;
-
-  }
-
-  .input-area {
-
-    flex-direction: column;
-
-  }
-
-  #send {
-
-    padding: 14px;
-
-  }
+  margin-bottom: 10px;
 
 }
 
@@ -269,19 +122,14 @@ ME N U
 </h1>
 
 
-<div class="subtitle">
-Voice + Text Control Center
+<div>
+Voice + Text
 </div>
 
 
-<!-- ================================
-     MICROPHONE
-================================ -->
-
-
 <button
-  id="mic"
-  onclick="startVoice()">
+id="mic"
+onclick="startVoice()">
 
 🎙️
 
@@ -293,24 +141,19 @@ Ready
 </div>
 
 
-<!-- ================================
-     TEXT INPUT
-================================ -->
-
+<!-- TEXT INPUT -->
 
 <div class="input-area">
 
 <input
-  id="question"
-  type="text"
-  placeholder="Type or edit your command..."
-  autocomplete="off"
->
-
+id="question"
+type="text"
+placeholder="Type your question..."
+autocomplete="off">
 
 <button
-  id="send"
-  onclick="sendTypedQuestion()">
+id="send"
+onclick="sendText()">
 
 SEND
 
@@ -319,66 +162,22 @@ SEND
 </div>
 
 
-<!-- ================================
-     QUICK COMMANDS
-================================ -->
-
-
-<div class="quick-buttons">
-
-<button
-  onclick="quickCommand('How many coins do I have?')">
-
-💰 Coins
-
-</button>
-
-
-<button
-  onclick="quickCommand('What is my relationship level?')">
-
-❤️ Level
-
-</button>
-
-
-<button
-  onclick="quickCommand('Mark all Prince tasks completed')">
-
-☑️ Prince Tasks
-
-</button>
-
-
-</div>
-
-
-<!-- ================================
-     YOU
-================================ -->
-
-
 <div
-  id="transcript"
-  class="card">
+id="transcript"
+class="card">
 
 <div class="label">
 YOU
 </div>
 
-Nothing yet.
+Waiting...
 
 </div>
 
 
-<!-- ================================
-     ME N U
-================================ -->
-
-
 <div
-  id="answer"
-  class="card">
+id="answer"
+class="card">
 
 <div class="label">
 ME N U
@@ -396,7 +195,7 @@ Waiting...
 
 
 // =================================================
-// APPS SCRIPT URL
+// YOUR APPS SCRIPT URL
 // =================================================
 
 const API_URL =
@@ -404,7 +203,39 @@ const API_URL =
 
 
 // =================================================
-// VOICE INPUT
+// TEXT SEND
+// =================================================
+
+function sendText() {
+
+  const input =
+    document.getElementById(
+      "question"
+    );
+
+
+  const question =
+    input.value.trim();
+
+
+  if (!question) {
+
+    setStatus(
+      "Type something first."
+    );
+
+    return;
+
+  }
+
+
+  sendToAI(question);
+
+}
+
+
+// =================================================
+// VOICE
 // =================================================
 
 function startVoice() {
@@ -417,7 +248,7 @@ function startVoice() {
   if (!SpeechRecognition) {
 
     setStatus(
-      "❌ Voice recognition unavailable"
+      "Voice recognition unavailable."
     );
 
     return;
@@ -441,10 +272,6 @@ function startVoice() {
     false;
 
 
-  recognition.maxAlternatives =
-    1;
-
-
   setStatus(
     "🎙️ Listening..."
   );
@@ -456,31 +283,34 @@ function startVoice() {
   recognition.onresult =
     function(event) {
 
-      const text =
+      const question =
         event
           .results[0][0]
           .transcript
           .trim();
 
 
-      // Put voice transcription
-      // INTO THE EDITABLE TEXT BOX
+      // PUT VOICE INTO TEXT BOX
 
       document
-        .getElementById("question")
+        .getElementById(
+          "question"
+        )
         .value =
-          text;
+          question;
 
 
       document
-        .getElementById("transcript")
+        .getElementById(
+          "transcript"
+        )
         .innerHTML =
-          '<div class="label">YOU</div>' +
-          escapeHTML(text);
+          "<div class='label'>YOU</div>" +
+          escapeHTML(question);
 
 
       setStatus(
-        "✏️ Edit it or press SEND"
+        "✏️ Edit the text or press SEND"
       );
 
     };
@@ -495,68 +325,6 @@ function startVoice() {
       );
 
     };
-
-
-  recognition.onend =
-    function() {
-
-      console.log(
-        "Voice recognition ended"
-      );
-
-    };
-
-}
-
-
-// =================================================
-// SEND TYPED TEXT
-// =================================================
-
-function sendTypedQuestion() {
-
-  const input =
-    document
-      .getElementById("question");
-
-
-  const question =
-    input.value.trim();
-
-
-  if (!question) {
-
-    setStatus(
-      "⚠️ Type something first"
-    );
-
-    return;
-
-  }
-
-
-  sendToAI(
-    question
-  );
-
-}
-
-
-// =================================================
-// QUICK COMMAND
-// =================================================
-
-function quickCommand(command) {
-
-  document
-    .getElementById("question")
-    .value =
-      command;
-
-
-  sendToAI(
-    command
-  );
 
 }
 
@@ -575,9 +343,11 @@ async function sendToAI(question) {
 
 
     document
-      .getElementById("transcript")
+      .getElementById(
+        "transcript"
+      )
       .innerHTML =
-        '<div class="label">YOU</div>' +
+        "<div class='label'>YOU</div>" +
         escapeHTML(question);
 
 
@@ -586,13 +356,12 @@ async function sendToAI(question) {
         API_URL,
         {
 
-          method:
-            "POST",
+          method: "POST",
 
           headers: {
 
             "Content-Type":
-              "text/plain"
+              "text/plain;charset=utf-8"
 
           },
 
@@ -605,18 +374,7 @@ async function sendToAI(question) {
             })
 
         }
-
       );
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        "Server error: " +
-        response.status
-      );
-
-    }
 
 
     const data =
@@ -627,43 +385,11 @@ async function sendToAI(question) {
 
       throw new Error(
         data.error ||
-        "ME N U request failed"
+        "Unknown server error"
       );
 
     }
 
-
-    // ==============================================
-    // ACTION RESPONSE
-    // ==============================================
-
-    if (
-      data.isAction === true
-    ) {
-
-      const message =
-        data.message ||
-        "Action completed.";
-
-
-      showAnswer(
-        message
-      );
-
-
-      speak(
-        message
-      );
-
-
-      return;
-
-    }
-
-
-    // ==============================================
-    // NORMAL AI RESPONSE
-    // ==============================================
 
     const answer =
       data.answer ||
@@ -671,24 +397,36 @@ async function sendToAI(question) {
       "No answer received.";
 
 
-    showAnswer(
-      answer
+    document
+      .getElementById(
+        "answer"
+      )
+      .innerHTML =
+        "<div class='label'>ME N U</div>" +
+        escapeHTML(answer);
+
+
+    setStatus(
+      "🔊 Speaking..."
     );
 
 
-    speak(
-      answer
-    );
+    speak(answer);
 
 
   }
 
   catch(error) {
 
-    showAnswer(
-      "❌ " +
-      error.message
-    );
+    document
+      .getElementById(
+        "answer"
+      )
+      .innerHTML =
+        "<div class='label'>ERROR</div>" +
+        escapeHTML(
+          error.message
+        );
 
 
     setStatus(
@@ -702,38 +440,18 @@ async function sendToAI(question) {
 
 
 // =================================================
-// SHOW ANSWER
-// =================================================
-
-function showAnswer(text) {
-
-  document
-    .getElementById("answer")
-    .innerHTML =
-      '<div class="label">ME N U</div>' +
-      escapeHTML(text);
-
-}
-
-
-// =================================================
-// TEXT → SPEECH
+// SPEAK
 // =================================================
 
 function speak(text) {
 
-  const synth =
-    window.speechSynthesis;
-
-
   if (
-    !synth ||
-    typeof synth.speak !==
-    "function"
+    !window.speechSynthesis ||
+    !window.SpeechSynthesisUtterance
   ) {
 
     setStatus(
-      "⚠️ Text-to-speech unavailable"
+      "Answer received."
     );
 
     return;
@@ -763,16 +481,6 @@ function speak(text) {
     1;
 
 
-  utterance.onstart =
-    function() {
-
-      setStatus(
-        "🔊 Speaking..."
-      );
-
-    };
-
-
   utterance.onend =
     function() {
 
@@ -783,30 +491,20 @@ function speak(text) {
     };
 
 
-  utterance.onerror =
-    function(event) {
-
-      setStatus(
-        "❌ Speech error: " +
-        event.error
-      );
-
-    };
-
-
   try {
 
-    synth.speak(
-      utterance
-    );
+    window
+      .speechSynthesis
+      .speak(
+        utterance
+      );
 
   }
 
   catch(error) {
 
     setStatus(
-      "❌ Speech failed: " +
-      error.message
+      "Answer received."
     );
 
   }
@@ -862,7 +560,9 @@ function escapeHTML(text) {
 function setStatus(text) {
 
   document
-    .getElementById("status")
+    .getElementById(
+      "status"
+    )
     .innerText =
       text;
 
@@ -874,7 +574,9 @@ function setStatus(text) {
 // =================================================
 
 document
-  .getElementById("question")
+  .getElementById(
+    "question"
+  )
   .addEventListener(
     "keydown",
     function(event) {
@@ -884,7 +586,7 @@ document
         "Enter"
       ) {
 
-        sendTypedQuestion();
+        sendText();
 
       }
 
