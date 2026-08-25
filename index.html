@@ -8,108 +8,598 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1">
 
-<title>ME N U</title>
+<title>ME N U ❤️</title>
 
 <style>
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: #111;
-  color: white;
-  font-family: Arial, sans-serif;
+* {
+  box-sizing: border-box;
 }
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #351525,
+      #111 55%
+    );
+
+  color: white;
+
+  font-family:
+    Arial,
+    sans-serif;
+
+  overflow-x: hidden;
+
+}
+
+
+/* =================================================
+   CONTAINER
+================================================= */
 
 .container {
+
   width: 90%;
-  max-width: 600px;
-  margin: 50px auto;
+
+  max-width: 650px;
+
+  margin: 40px auto;
+
   text-align: center;
+
 }
+
+
+/* =================================================
+   TITLE
+================================================= */
 
 h1 {
-  font-size: 42px;
+
+  font-size: 45px;
+
   margin-bottom: 5px;
+
+  letter-spacing: 2px;
+
 }
+
 
 .subtitle {
+
   opacity: .6;
-  margin-bottom: 25px;
+
+  margin-bottom: 20px;
+
 }
 
-#status {
-  margin: 20px;
-  min-height: 22px;
+
+/* =================================================
+   WELCOME ANIMATION
+================================================= */
+
+#welcome {
+
+  min-height: 115px;
+
+  margin: 25px 0;
+
+  font-size: 20px;
+
+  line-height: 1.7;
+
 }
+
+
+.welcome-line {
+
+  opacity: 0;
+
+  transform:
+    translateY(15px);
+
+  animation:
+    welcomeIn
+    .8s
+    forwards;
+
+}
+
+
+.welcome-line:nth-child(1) {
+  animation-delay: .2s;
+}
+
+.welcome-line:nth-child(2) {
+  animation-delay: 1s;
+}
+
+.welcome-line:nth-child(3) {
+  animation-delay: 1.8s;
+}
+
+.welcome-line:nth-child(4) {
+  animation-delay: 2.6s;
+}
+
+
+@keyframes welcomeIn {
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+
+  }
+
+}
+
+
+/* =================================================
+   MICROPHONE
+================================================= */
 
 #mic {
+
   width: 120px;
+
   height: 120px;
+
   border-radius: 50%;
+
   border: none;
-  font-size: 50px;
+
+  font-size: 48px;
+
   cursor: pointer;
+
+  transition:
+    .2s;
+
 }
+
 
 #mic:hover {
-  transform: scale(1.03);
+
+  transform:
+    scale(1.05);
+
 }
+
+
+#mic.listening {
+
+  animation:
+    micPulse
+    1s
+    infinite;
+
+}
+
+
+@keyframes micPulse {
+
+  0% {
+
+    transform:
+      scale(1);
+
+    box-shadow:
+      0 0 0 0
+      rgba(255,255,255,.3);
+
+  }
+
+  50% {
+
+    transform:
+      scale(1.12);
+
+    box-shadow:
+      0 0 0 20px
+      rgba(255,255,255,0);
+
+  }
+
+  100% {
+
+    transform:
+      scale(1);
+
+    box-shadow:
+      0 0 0 0
+      rgba(255,255,255,0);
+
+  }
+
+}
+
+
+/* =================================================
+   THINKING ANIMATION
+================================================= */
+
+#status.thinking::after {
+
+  content:
+    "";
+
+  animation:
+    dots
+    1.5s
+    infinite;
+
+}
+
+
+@keyframes dots {
+
+  0% {
+    content: "";
+  }
+
+  33% {
+    content: ".";
+  }
+
+  66% {
+    content: "..";
+  }
+
+  100% {
+    content: "...";
+  }
+
+}
+
+
+/* =================================================
+   SPEAKING ANIMATION
+================================================= */
+
+#status.speaking {
+
+  animation:
+    speakPulse
+    1s
+    infinite;
+
+}
+
+
+@keyframes speakPulse {
+
+  0% {
+    opacity: .5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: .5;
+  }
+
+}
+
+
+/* =================================================
+   STATUS
+================================================= */
+
+#status {
+
+  margin: 18px;
+
+  min-height: 22px;
+
+  opacity: .9;
+
+}
+
+
+/* =================================================
+   INPUT
+================================================= */
 
 .input-area {
+
   display: flex;
+
   gap: 10px;
-  margin-top: 30px;
+
+  margin-top: 25px;
+
 }
+
 
 #question {
+
   flex: 1;
+
   padding: 15px;
-  font-size: 18px;
+
+  font-size: 17px;
+
   border-radius: 10px;
-  border: 1px solid #555;
-  background: #222;
-  color: white;
-  outline: none;
+
+  border:
+    1px solid #555;
+
+  background:
+    #222;
+
+  color:
+    white;
+
+  outline:
+    none;
+
 }
+
 
 #question:focus {
-  border-color: white;
+
+  border-color:
+    white;
+
 }
+
 
 #send {
-  padding: 15px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: bold;
+
+  padding:
+    15px 20px;
+
+  border:
+    none;
+
+  border-radius:
+    10px;
+
+  cursor:
+    pointer;
+
+  font-weight:
+    bold;
+
 }
 
-#speakButton {
-  margin-top: 12px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 15px;
-}
 
-#speakButton:active {
-  transform: scale(.97);
-}
+/* =================================================
+   CARDS
+================================================= */
 
 .card {
-  background: #222;
-  margin-top: 20px;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: left;
-  line-height: 1.5;
+
+  background:
+    rgba(34,34,34,.92);
+
+  margin-top:
+    20px;
+
+  padding:
+    20px;
+
+  border-radius:
+    14px;
+
+  text-align:
+    left;
+
+  line-height:
+    1.6;
+
+  word-wrap:
+    break-word;
+
 }
 
+
 .label {
-  font-size: 11px;
-  opacity: .5;
-  margin-bottom: 10px;
+
+  font-size:
+    11px;
+
+  opacity:
+    .5;
+
+  margin-bottom:
+    10px;
+
+}
+
+
+/* =================================================
+   CONTROLS
+================================================= */
+
+.controls {
+
+  display:
+    flex;
+
+  flex-wrap:
+    wrap;
+
+  justify-content:
+    center;
+
+  gap:
+    10px;
+
+  margin-top:
+    15px;
+
+}
+
+
+.controlButton {
+
+  padding:
+    11px 16px;
+
+  border:
+    none;
+
+  border-radius:
+    10px;
+
+  cursor:
+    pointer;
+
+  font-size:
+    14px;
+
+}
+
+
+#speakButton {
+
+  margin-top:
+    15px;
+
+}
+
+
+/* =================================================
+   VOICE SETTINGS
+================================================= */
+
+.voice-settings {
+
+  margin-top:
+    18px;
+
+  padding:
+    15px;
+
+  background:
+    rgba(34,34,34,.8);
+
+  border-radius:
+    12px;
+
+  text-align:
+    left;
+
+}
+
+
+.voice-settings label {
+
+  display:
+    block;
+
+  margin-bottom:
+    10px;
+
+  font-size:
+    14px;
+
+}
+
+
+.voice-settings select,
+.voice-settings input {
+
+  width:
+    100%;
+
+  margin-top:
+    5px;
+
+}
+
+
+/* =================================================
+   HISTORY
+================================================= */
+
+#history {
+
+  margin-top:
+    25px;
+
+}
+
+
+.history-item {
+
+  background:
+    rgba(34,34,34,.7);
+
+  padding:
+    15px;
+
+  border-radius:
+    10px;
+
+  margin-top:
+    10px;
+
+  text-align:
+    left;
+
+}
+
+
+.history-user {
+
+  opacity:
+    .75;
+
+  margin-bottom:
+    8px;
+
+}
+
+
+.history-ai {
+
+  line-height:
+    1.5;
+
+}
+
+
+/* =================================================
+   MOBILE
+================================================= */
+
+@media(max-width:600px) {
+
+  .input-area {
+
+    flex-direction:
+      column;
+
+  }
+
+  #send {
+
+    width:
+      100%;
+
+  }
+
+  h1 {
+
+    font-size:
+      38px;
+
+  }
+
 }
 
 </style>
@@ -124,12 +614,37 @@ h1 {
 
 
 <h1>
-ME N U
+ME N U ❤️
 </h1>
 
 
 <div class="subtitle">
-Voice + Text
+Prince × Niharika
+</div>
+
+
+<!-- =================================================
+     WELCOME
+================================================= -->
+
+<div id="welcome">
+
+  <div class="welcome-line">
+    Hii Niharikaaa ❤️
+  </div>
+
+  <div class="welcome-line">
+    Hey cutie, finally you're here 😘
+  </div>
+
+  <div class="welcome-line">
+    I was waiting for you... 👀
+  </div>
+
+  <div class="welcome-line">
+    Come talk to me, jaan ❤️
+  </div>
+
 </div>
 
 
@@ -139,7 +654,6 @@ Voice + Text
 
 <button
 id="mic"
-type="button"
 onclick="startVoice()">
 
 🎙️
@@ -161,12 +675,11 @@ Ready
 <input
 id="question"
 type="text"
-placeholder="Type or edit your question..."
+placeholder="Say something to Niharika..."
 autocomplete="off">
 
 <button
 id="send"
-type="button"
 onclick="sendText()">
 
 SEND
@@ -177,7 +690,7 @@ SEND
 
 
 <!-- =================================================
-     QUESTION
+     YOU
 ================================================= -->
 
 <div
@@ -194,7 +707,7 @@ Waiting...
 
 
 <!-- =================================================
-     ANSWER
+     AI
 ================================================= -->
 
 <div
@@ -211,17 +724,95 @@ Waiting...
 
 
 <!-- =================================================
-     SPEAK
+     SPEAKER CONTROLS
 ================================================= -->
+
+<div class="controls">
 
 <button
 id="speakButton"
-type="button"
+class="controlButton"
 onclick="speakCurrentAnswer()">
 
 🔊 Speak Answer
 
 </button>
+
+
+<button
+class="controlButton"
+onclick="stopSpeaking()">
+
+⏹ Stop
+
+</button>
+
+
+<button
+class="controlButton"
+onclick="replayAnswer()">
+
+🔁 Replay
+
+</button>
+
+</div>
+
+
+<!-- =================================================
+     VOICE SETTINGS
+================================================= -->
+
+<div class="voice-settings">
+
+<label>
+
+Voice
+
+<select
+id="voiceSelect">
+
+<option>
+Loading voices...
+</option>
+
+</select>
+
+</label>
+
+
+<label>
+
+Speaking Speed:
+<span id="speedValue">
+1.0
+</span>
+
+<input
+id="speed"
+type="range"
+min="0.5"
+max="1.8"
+step="0.1"
+value="1.0"
+oninput="updateSpeed()">
+
+</label>
+
+</div>
+
+
+<!-- =================================================
+     HISTORY
+================================================= -->
+
+<div id="history">
+
+<div class="label">
+CONVERSATION
+</div>
+
+</div>
 
 
 </div>
@@ -231,7 +822,7 @@ onclick="speakCurrentAnswer()">
 
 
 // =================================================
-// APPS SCRIPT URL
+// APPS SCRIPT API
 // =================================================
 
 const API_URL =
@@ -239,21 +830,24 @@ const API_URL =
 
 
 // =================================================
-// STORE LAST ANSWER
-// IMPORTANT
+// GLOBALS
 // =================================================
 
 let currentAnswer = "";
 
+let voices = [];
+
 
 // =================================================
-// SEND TEXT
+// TEXT SEND
 // =================================================
 
 function sendText() {
 
   const input =
-    document.getElementById("question");
+    document.getElementById(
+      "question"
+    );
 
   const question =
     input.value.trim();
@@ -261,13 +855,17 @@ function sendText() {
   if (!question) {
 
     setStatus(
-      "⚠️ Type something first."
+      "⚠️ Say something first."
     );
 
     return;
+
   }
 
-  sendToAI(question);
+  sendToAI(
+    question
+  );
+
 }
 
 
@@ -288,6 +886,7 @@ function startVoice() {
     );
 
     return;
+
   }
 
   const recognition =
@@ -306,6 +905,16 @@ function startVoice() {
     1;
 
 
+  const mic =
+    document.getElementById(
+      "mic"
+    );
+
+  mic.classList.add(
+    "listening"
+  );
+
+
   setStatus(
     "🎙️ Listening..."
   );
@@ -319,11 +928,16 @@ function startVoice() {
 
   catch(error) {
 
+    mic.classList.remove(
+      "listening"
+    );
+
     setStatus(
       "❌ Could not start microphone."
     );
 
     return;
+
   }
 
 
@@ -338,16 +952,22 @@ function startVoice() {
 
 
       document
-        .getElementById("question")
+        .getElementById(
+          "question"
+        )
         .value =
           question;
 
 
       document
-        .getElementById("transcript")
+        .getElementById(
+          "transcript"
+        )
         .innerHTML =
           "<div class='label'>YOU</div>" +
-          escapeHTML(question);
+          escapeHTML(
+            question
+          );
 
 
       setStatus(
@@ -371,8 +991,8 @@ function startVoice() {
   recognition.onend =
     function() {
 
-      console.log(
-        "Voice recognition ended."
+      mic.classList.remove(
+        "listening"
       );
 
     };
@@ -381,64 +1001,47 @@ function startVoice() {
 
 
 // =================================================
-// SEND TO APPS SCRIPT
+// SEND TO AI
 // =================================================
 
-async function sendToAI(question) {
+async function sendToAI(
+  question
+) {
 
   try {
 
-    setStatus(
-      "🧠 Thinking..."
+    setThinking(
+      true
     );
 
 
-    // Stop any previous speech
-
-    if (
-      window.speechSynthesis
-    ) {
-
-      window
-        .speechSynthesis
-        .cancel();
-
-    }
-
-
-    // Reset stored answer
-
-    currentAnswer = "";
-
-
-    // Show question
-
     document
-      .getElementById("transcript")
+      .getElementById(
+        "transcript"
+      )
       .innerHTML =
         "<div class='label'>YOU</div>" +
-        escapeHTML(question);
+        escapeHTML(
+          question
+        );
 
-
-    // Show thinking
 
     document
-      .getElementById("answer")
+      .getElementById(
+        "answer"
+      )
       .innerHTML =
         "<div class='label'>ME N U</div>" +
-        "Thinking...";
+        "Thinking";
 
-
-    // =================================================
-    // SEND
-    // =================================================
 
     const response =
       await fetch(
         API_URL,
         {
 
-          method: "POST",
+          method:
+            "POST",
 
           headers: {
 
@@ -469,10 +1072,6 @@ async function sendToAI(question) {
     }
 
 
-    // =================================================
-    // READ JSON
-    // =================================================
-
     const data =
       await response.json();
 
@@ -481,58 +1080,73 @@ async function sendToAI(question) {
 
       throw new Error(
         data.error ||
-        data.message ||
         "Unknown server error"
       );
 
     }
 
 
-    // =================================================
-    // GET ANSWER
-    // =================================================
-
     const answer =
-      String(
-        data.answer ||
-        data.message ||
-        "No answer received."
-      );
+      data.answer ||
+      data.message ||
+      "No answer received.";
 
-
-    // =================================================
-    // SAVE ANSWER
-    // IMPORTANT
-    // =================================================
 
     currentAnswer =
       answer;
 
 
-    // =================================================
-    // SHOW ANSWER
-    // =================================================
-
     document
-      .getElementById("answer")
+      .getElementById(
+        "answer"
+      )
       .innerHTML =
         "<div class='label'>ME N U</div>" +
-        escapeHTML(answer);
+        escapeHTML(
+          answer
+        );
+
+
+    addHistory(
+      question,
+      answer
+    );
+
+
+    setThinking(
+      false
+    );
 
 
     setStatus(
-      "✅ Answer received. Press 🔊 to hear it."
+      "✅ Answer received."
     );
 
+
+    /*
+      IMPORTANT:
+
+      NO automatic speech here.
+
+      The AI will NOT speak automatically.
+
+      User must press:
+      🔊 Speak Answer
+    */
 
   }
 
   catch(error) {
 
-    currentAnswer = "";
+    setThinking(
+      false
+    );
+
 
     document
-      .getElementById("answer")
+      .getElementById(
+        "answer"
+      )
       .innerHTML =
         "<div class='label'>ERROR</div>" +
         escapeHTML(
@@ -551,22 +1165,53 @@ async function sendToAI(question) {
 
 
 // =================================================
-// SPEAK CURRENT ANSWER
+// THINKING STATE
+// =================================================
+
+function setThinking(
+  thinking
+) {
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+  if (thinking) {
+
+    status.classList.add(
+      "thinking"
+    );
+
+    status.innerText =
+      "🧠 Thinking";
+
+  }
+
+  else {
+
+    status.classList.remove(
+      "thinking"
+    );
+
+  }
+
+}
+
+
+// =================================================
+// SPEAK ANSWER
 // =================================================
 
 function speakCurrentAnswer() {
 
-  // =================================================
-  // CHECK SUPPORT
-  // =================================================
-
   if (
-    !("speechSynthesis" in window) ||
-    !("SpeechSynthesisUtterance" in window)
+    !window.speechSynthesis ||
+    !window.SpeechSynthesisUtterance
   ) {
 
     setStatus(
-      "❌ Text-to-speech is not supported by this browser."
+      "❌ Text-to-speech unavailable."
     );
 
     return;
@@ -574,15 +1219,33 @@ function speakCurrentAnswer() {
   }
 
 
-  // =================================================
-  // USE STORED ANSWER
-  // =================================================
-
-  const text =
-    String(currentAnswer || "").trim();
+  let text =
+    currentAnswer;
 
 
   if (!text) {
+
+    const answerElement =
+      document.getElementById(
+        "answer"
+      );
+
+    text =
+      answerElement.innerText
+        .replace(
+          "ME N U",
+          ""
+        )
+        .trim();
+
+  }
+
+
+  if (
+    !text ||
+    text === "Waiting..." ||
+    text === "Thinking"
+  ) {
 
     setStatus(
       "⚠️ Nothing to speak yet."
@@ -593,18 +1256,8 @@ function speakCurrentAnswer() {
   }
 
 
-  // =================================================
-  // STOP PREVIOUS SPEECH
-  // =================================================
+  stopSpeaking();
 
-  window
-    .speechSynthesis
-    .cancel();
-
-
-  // =================================================
-  // CREATE SPEECH
-  // =================================================
 
   const utterance =
     new SpeechSynthesisUtterance(
@@ -612,69 +1265,68 @@ function speakCurrentAnswer() {
     );
 
 
+  const selectedVoice =
+    document
+      .getElementById(
+        "voiceSelect"
+      )
+      .value;
+
+
+  const selected =
+    voices.find(
+      function(voice) {
+
+        return voice.name ===
+          selectedVoice;
+
+      }
+    );
+
+
+  if (selected) {
+
+    utterance.voice =
+      selected;
+
+  }
+
+
   utterance.lang =
     "en-IN";
 
+
   utterance.rate =
-    1;
+    parseFloat(
+      document
+        .getElementById(
+          "speed"
+        )
+        .value
+    );
+
 
   utterance.pitch =
     1;
+
 
   utterance.volume =
     1;
 
 
-  // =================================================
-  // LOAD A VOICE
-  // =================================================
-
-  const voices =
-    window
-      .speechSynthesis
-      .getVoices();
-
-
-  const preferredVoice =
-    voices.find(function(voice) {
-
-      return (
-        voice.lang === "en-IN"
-      );
-
-    }) ||
-    voices.find(function(voice) {
-
-      return (
-        voice.lang &&
-        voice.lang.startsWith("en")
-      );
-
-    });
-
-
-  if (preferredVoice) {
-
-    utterance.voice =
-      preferredVoice;
-
-  }
-
-
-  // =================================================
-  // EVENTS
-  // =================================================
-
   utterance.onstart =
     function() {
 
-      setStatus(
-        "🔊 Speaking..."
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+      status.classList.add(
+        "speaking"
       );
 
-      document
-        .getElementById("speakButton")
-        .innerText =
+      status.innerText =
         "🔊 Speaking...";
 
     };
@@ -683,14 +1335,17 @@ function speakCurrentAnswer() {
   utterance.onend =
     function() {
 
-      setStatus(
-        "Ready"
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+      status.classList.remove(
+        "speaking"
       );
 
-      document
-        .getElementById("speakButton")
-        .innerText =
-        "🔊 Speak Answer";
+      status.innerText =
+        "Ready";
 
     };
 
@@ -698,73 +1353,77 @@ function speakCurrentAnswer() {
   utterance.onerror =
     function(event) {
 
-      console.error(
-        "Speech error:",
-        event
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+      status.classList.remove(
+        "speaking"
       );
 
-      setStatus(
+      status.innerText =
         "❌ Speech error: " +
-        (
-          event.error ||
-          "unknown error"
-        )
-      );
-
-      document
-        .getElementById("speakButton")
-        .innerText =
-        "🔊 Speak Answer";
+        event.error;
 
     };
 
 
-  // =================================================
-  // SPEAK
-  // =================================================
+  window
+    .speechSynthesis
+    .speak(
+      utterance
+    );
 
-  try {
+}
+
+
+// =================================================
+// STOP SPEAKING
+// =================================================
+
+function stopSpeaking() {
+
+  if (
+    window.speechSynthesis
+  ) {
 
     window
       .speechSynthesis
-      .speak(
-        utterance
-      );
-
-
-    // Chrome sometimes pauses speech
-    // after a long delay.
-    // Keep the speech engine alive.
-
-    setTimeout(
-      function() {
-
-        if (
-          window.speechSynthesis.speaking &&
-          !window.speechSynthesis.paused
-        ) {
-
-          window
-            .speechSynthesis
-            .resume();
-
-        }
-
-      },
-      100
-    );
-
+      .cancel();
 
   }
 
-  catch(error) {
+
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+  status.classList.remove(
+    "speaking"
+  );
+
+}
+
+
+// =================================================
+// REPLAY
+// =================================================
+
+function replayAnswer() {
+
+  if (!currentAnswer) {
 
     setStatus(
-      "❌ Speech failed: " +
-      error.message
+      "⚠️ No answer to replay."
     );
 
+    return;
+
   }
+
+  speakCurrentAnswer();
 
 }
 
@@ -773,33 +1432,209 @@ function speakCurrentAnswer() {
 // LOAD VOICES
 // =================================================
 
+function loadVoices() {
+
+  if (
+    !window.speechSynthesis
+  ) {
+
+    return;
+
+  }
+
+
+  voices =
+    window
+      .speechSynthesis
+      .getVoices();
+
+
+  const select =
+    document.getElementById(
+      "voiceSelect"
+    );
+
+
+  select.innerHTML =
+    "";
+
+
+  if (
+    voices.length === 0
+  ) {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.textContent =
+      "Default voice";
+
+    select.appendChild(
+      option
+    );
+
+    return;
+
+  }
+
+
+  voices.forEach(
+    function(voice) {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+      option.value =
+        voice.name;
+
+      option.textContent =
+        voice.name +
+        " (" +
+        voice.lang +
+        ")";
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+
+  // Prefer Indian English voice
+  const indianVoice =
+    voices.find(
+      function(voice) {
+
+        return (
+          voice.lang
+            .toLowerCase()
+            .includes("en-in")
+        );
+
+      }
+    );
+
+
+  if (indianVoice) {
+
+    select.value =
+      indianVoice.name;
+
+  }
+
+}
+
+
 if (
-  "speechSynthesis" in window
+  window.speechSynthesis
 ) {
 
-  window
-    .speechSynthesis
-    .getVoices();
+  loadVoices();
 
   window
     .speechSynthesis
     .onvoiceschanged =
-      function() {
-
-        window
-          .speechSynthesis
-          .getVoices();
-
-      };
+      loadVoices;
 
 }
 
 
 // =================================================
-// SAFE HTML
+// SPEED
 // =================================================
 
-function escapeHTML(text) {
+function updateSpeed() {
+
+  const speed =
+    document.getElementById(
+      "speed"
+    ).value;
+
+
+  document
+    .getElementById(
+      "speedValue"
+    )
+    .innerText =
+      speed;
+
+}
+
+
+// =================================================
+// CONVERSATION HISTORY
+// =================================================
+
+function addHistory(
+  question,
+  answer
+) {
+
+  const history =
+    document.getElementById(
+      "history"
+    );
+
+
+  const item =
+    document.createElement(
+      "div"
+    );
+
+
+  item.className =
+    "history-item";
+
+
+  item.innerHTML =
+
+    "<div class='history-user'>" +
+    "❤️ Niharika: " +
+    escapeHTML(
+      question
+    ) +
+    "</div>" +
+
+    "<div class='history-ai'>" +
+    "😘 Prince: " +
+    escapeHTML(
+      answer
+    ) +
+    "</div>";
+
+
+  history.appendChild(
+    item
+  );
+
+
+  // Keep last 20 conversations
+  while (
+    history.children.length >
+    21
+  ) {
+
+    history.removeChild(
+      history.children[1]
+    );
+
+  }
+
+}
+
+
+// =================================================
+// ESCAPE HTML
+// =================================================
+
+function escapeHTML(
+  text
+) {
 
   return String(text)
 
@@ -840,12 +1675,21 @@ function escapeHTML(text) {
 // STATUS
 // =================================================
 
-function setStatus(text) {
+function setStatus(
+  text
+) {
 
-  document
-    .getElementById("status")
-    .innerText =
-      text;
+  const status =
+    document.getElementById(
+      "status"
+    );
+
+  status.classList.remove(
+    "thinking"
+  );
+
+  status.innerText =
+    text;
 
 }
 
@@ -855,13 +1699,16 @@ function setStatus(text) {
 // =================================================
 
 document
-  .getElementById("question")
+  .getElementById(
+    "question"
+  )
   .addEventListener(
     "keydown",
     function(event) {
 
       if (
-        event.key === "Enter"
+        event.key ===
+        "Enter"
       ) {
 
         event.preventDefault();
@@ -872,7 +1719,6 @@ document
 
     }
   );
-
 
 </script>
 
