@@ -11,7 +11,11 @@ content="width=device-width, initial-scale=1">
 
 <title>ME N U ❤️</title>
 
-<!-- DEFAULT FAVICON -->
+
+<!-- =================================================
+     SPECIAL FAVICON
+================================================= -->
+
 <link
 id="favicon"
 rel="icon"
@@ -24,6 +28,7 @@ href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 
 * {
   box-sizing: border-box;
 }
+
 
 body {
 
@@ -49,6 +54,10 @@ body {
 }
 
 
+/* =================================================
+   CONTAINER
+================================================= */
+
 .container {
 
   width: 90%;
@@ -61,6 +70,10 @@ body {
 
 }
 
+
+/* =================================================
+   TITLE
+================================================= */
 
 h1 {
 
@@ -83,7 +96,7 @@ h1 {
 
 
 /* =================================================
-   WELCOME
+   WELCOME ANIMATION
 ================================================= */
 
 #welcome {
@@ -118,13 +131,16 @@ h1 {
   animation-delay: .2s;
 }
 
+
 .welcome-line:nth-child(2) {
   animation-delay: 1s;
 }
 
+
 .welcome-line:nth-child(3) {
   animation-delay: 1.8s;
 }
+
 
 .welcome-line:nth-child(4) {
   animation-delay: 2.6s;
@@ -146,7 +162,7 @@ h1 {
 
 
 /* =================================================
-   MIC
+   MICROPHONE
 ================================================= */
 
 #mic {
@@ -226,23 +242,13 @@ h1 {
 
 
 /* =================================================
-   STATUS
+   THINKING ANIMATION
 ================================================= */
-
-#status {
-
-  margin: 18px;
-
-  min-height: 22px;
-
-  opacity: .9;
-
-}
-
 
 #status.thinking::after {
 
-  content: "";
+  content:
+    "";
 
   animation:
     dots
@@ -273,6 +279,10 @@ h1 {
 }
 
 
+/* =================================================
+   SPEAKING ANIMATION
+================================================= */
+
 #status.speaking {
 
   animation:
@@ -296,6 +306,21 @@ h1 {
   100% {
     opacity: .5;
   }
+
+}
+
+
+/* =================================================
+   STATUS
+================================================= */
+
+#status {
+
+  margin: 18px;
+
+  min-height: 22px;
+
+  opacity: .9;
 
 }
 
@@ -336,6 +361,14 @@ h1 {
 
   outline:
     none;
+
+}
+
+
+#question:focus {
+
+  border-color:
+    white;
 
 }
 
@@ -448,72 +481,16 @@ h1 {
 }
 
 
-/* =================================================
-   LANGUAGE
-================================================= */
-
-.language-settings {
+#speakButton {
 
   margin-top:
-    18px;
-
-  padding:
-    15px;
-
-  background:
-    rgba(34,34,34,.8);
-
-  border-radius:
-    12px;
-
-  text-align:
-    left;
-
-}
-
-
-.language-settings label {
-
-  display:
-    block;
-
-  font-size:
-    14px;
-
-}
-
-
-#languageSelect {
-
-  width:
-    100%;
-
-  padding:
-    12px;
-
-  margin-top:
-    7px;
-
-  border:
-    1px solid #555;
-
-  border-radius:
-    8px;
-
-  background:
-    #222;
-
-  color:
-    white;
-
-  font-size:
     15px;
 
 }
 
 
 /* =================================================
-   VOICE
+   VOICE SETTINGS
 ================================================= */
 
 .voice-settings {
@@ -707,7 +684,7 @@ Ready
 
 
 <!-- =================================================
-     INPUT
+     TEXT INPUT
 ================================================= -->
 
 <div class="input-area">
@@ -764,12 +741,13 @@ Waiting...
 
 
 <!-- =================================================
-     CONTROLS
+     SPEAKER CONTROLS
 ================================================= -->
 
 <div class="controls">
 
 <button
+id="speakButton"
 class="controlButton"
 onclick="speakCurrentAnswer()">
 
@@ -799,46 +777,20 @@ onclick="replayAnswer()">
 
 
 <!-- =================================================
-     LANGUAGE
-================================================= -->
-
-<div class="language-settings">
-
-<label>
-
-🌐 Language
-
-<select id="languageSelect">
-
-<option value="en-IN">
-🇬🇧 English
-</option>
-
-<option value="hi-IN">
-🇮🇳 हिन्दी
-</option>
-
-</select>
-
-</label>
-
-</div>
-
-
-<!-- =================================================
-     VOICE
+     VOICE SETTINGS
 ================================================= -->
 
 <div class="voice-settings">
 
 <label>
 
-🔊 Voice
+Voice
 
-<select id="voiceSelect">
+<select
+id="voiceSelect">
 
 <option>
-Loading...
+Loading voices...
 </option>
 
 </select>
@@ -887,7 +839,7 @@ CONVERSATION
 
 
 // =================================================
-// APPS SCRIPT
+// APPS SCRIPT API
 // =================================================
 
 const API_URL =
@@ -904,7 +856,7 @@ let voices = [];
 
 
 // =================================================
-// SPECIAL TAB ANIMATION
+// SPECIAL CHROME TAB ANIMATION
 // =================================================
 
 const favicon =
@@ -997,6 +949,7 @@ function changeTab() {
 
   tabIndex++;
 
+
   if (
     tabIndex >=
     tabStates.length
@@ -1009,75 +962,12 @@ function changeTab() {
 }
 
 
-// Change every 2 seconds
-
 changeTab();
+
 
 setInterval(
   changeTab,
   2000
-);
-
-
-// =================================================
-// LANGUAGE
-// =================================================
-
-const languageSelect =
-document.getElementById(
-  "languageSelect"
-);
-
-
-languageSelect.value =
-"en-IN";
-
-
-languageSelect.addEventListener(
-  "change",
-  function() {
-
-    loadVoices();
-
-    const language =
-      this.value;
-
-
-    if (
-      language === "hi-IN"
-    ) {
-
-      document
-        .getElementById(
-          "question"
-        )
-        .placeholder =
-          "निहारिका से कुछ कहो... ❤️";
-
-
-      setStatus(
-        "🇮🇳 हिन्दी चुनी गई है ❤️"
-      );
-
-    }
-
-    else {
-
-      document
-        .getElementById(
-          "question"
-        )
-        .placeholder =
-          "Say something to Niharika...";
-
-
-      setStatus(
-        "🇬🇧 English selected ❤️"
-      );
-
-    }
-
-  }
 );
 
 
@@ -1142,7 +1032,7 @@ function startVoice() {
 
 
   recognition.lang =
-    languageSelect.value;
+    "en-IN";
 
 
   recognition.continuous =
@@ -1169,12 +1059,7 @@ function startVoice() {
 
 
   setStatus(
-    recognition.lang ===
-    "hi-IN"
-
-      ? "🎙️ सुन रही हूँ..."
-
-      : "🎙️ Listening..."
+    "🎙️ Listening..."
   );
 
 
@@ -1190,9 +1075,11 @@ function startVoice() {
       "listening"
     );
 
+
     setStatus(
       "❌ Could not start microphone."
     );
+
 
     return;
 
@@ -1229,7 +1116,7 @@ function startVoice() {
 
 
       setStatus(
-        "✏️ Press SEND ❤️"
+        "✏️ Edit if needed, then press SEND."
       );
 
     };
@@ -1380,6 +1267,14 @@ async function sendToAI(
       "✅ Answer received."
     );
 
+
+    /*
+      NO AUTOMATIC SPEECH.
+
+      User must press:
+      🔊 Speak Answer
+    */
+
   }
 
 
@@ -1412,7 +1307,7 @@ async function sendToAI(
 
 
 // =================================================
-// THINKING
+// THINKING STATE
 // =================================================
 
 function setThinking(
@@ -1431,10 +1326,12 @@ function setThinking(
       "thinking"
     );
 
+
     status.innerText =
       "🧠 Thinking";
 
   }
+
 
   else {
 
@@ -1448,18 +1345,20 @@ function setThinking(
 
 
 // =================================================
-// SPEAK
+// SPEAK ANSWER
 // =================================================
 
 function speakCurrentAnswer() {
 
   if (
-    !window.speechSynthesis
+    !window.speechSynthesis ||
+    !window.SpeechSynthesisUtterance
   ) {
 
     setStatus(
       "❌ Text-to-speech unavailable."
     );
+
 
     return;
 
@@ -1472,12 +1371,14 @@ function speakCurrentAnswer() {
 
   if (!text) {
 
+    const answerElement =
+      document.getElementById(
+        "answer"
+      );
+
+
     text =
-      document
-        .getElementById(
-          "answer"
-        )
-        .innerText
+      answerElement.innerText
         .replace(
           "ME N U",
           ""
@@ -1496,6 +1397,7 @@ function speakCurrentAnswer() {
     setStatus(
       "⚠️ Nothing to speak yet."
     );
+
 
     return;
 
@@ -1523,10 +1425,8 @@ function speakCurrentAnswer() {
     voices.find(
       function(voice) {
 
-        return (
-          voice.name ===
-          selectedVoice
-        );
+        return voice.name ===
+          selectedVoice;
 
       }
     );
@@ -1541,7 +1441,7 @@ function speakCurrentAnswer() {
 
 
   utterance.lang =
-    languageSelect.value;
+    "en-IN";
 
 
   utterance.rate =
@@ -1605,23 +1505,35 @@ function speakCurrentAnswer() {
   utterance.onerror =
     function(event) {
 
-      setStatus(
-        "❌ Speech error: " +
-        event.error
+      const status =
+        document.getElementById(
+          "status"
+        );
+
+
+      status.classList.remove(
+        "speaking"
       );
+
+
+      status.innerText =
+        "❌ Speech error: " +
+        event.error;
 
     };
 
 
-  speechSynthesis.speak(
-    utterance
-  );
+  window
+    .speechSynthesis
+    .speak(
+      utterance
+    );
 
 }
 
 
 // =================================================
-// STOP
+// STOP SPEAKING
 // =================================================
 
 function stopSpeaking() {
@@ -1630,18 +1542,22 @@ function stopSpeaking() {
     window.speechSynthesis
   ) {
 
-    speechSynthesis.cancel();
+    window
+      .speechSynthesis
+      .cancel();
 
   }
 
 
-  document
-    .getElementById(
+  const status =
+    document.getElementById(
       "status"
-    )
-    .classList.remove(
-      "speaking"
     );
+
+
+  status.classList.remove(
+    "speaking"
+  );
 
 }
 
@@ -1658,6 +1574,7 @@ function replayAnswer() {
       "⚠️ No answer to replay."
     );
 
+
     return;
 
   }
@@ -1669,7 +1586,7 @@ function replayAnswer() {
 
 
 // =================================================
-// LOAD ONLY ENGLISH + HINDI VOICES
+// LOAD VOICES
 // =================================================
 
 function loadVoices() {
@@ -1683,62 +1600,10 @@ function loadVoices() {
   }
 
 
-  const allVoices =
-    speechSynthesis.getVoices();
-
-
-  const language =
-    languageSelect.value;
-
-
-  /*
-     ONLY SHOW VOICES
-     FOR SELECTED LANGUAGE
-  */
-
   voices =
-    allVoices.filter(
-      function(voice) {
-
-        const lang =
-          voice.lang
-            .toLowerCase();
-
-
-        if (
-          language ===
-          "en-IN"
-        ) {
-
-          return (
-            lang === "en-in" ||
-            lang.startsWith(
-              "en-"
-            )
-          );
-
-        }
-
-
-        if (
-          language ===
-          "hi-IN"
-        ) {
-
-          return (
-            lang === "hi-in" ||
-            lang.startsWith(
-              "hi-"
-            )
-          );
-
-        }
-
-
-        return false;
-
-      }
-    );
+    window
+      .speechSynthesis
+      .getVoices();
 
 
   const select =
@@ -1762,12 +1627,7 @@ function loadVoices() {
 
 
     option.textContent =
-      language ===
-      "hi-IN"
-
-        ? "Hindi voice unavailable"
-
-        : "English voice unavailable";
+      "Default voice";
 
 
     select.appendChild(
@@ -1808,20 +1668,33 @@ function loadVoices() {
   );
 
 
-  /*
-     SELECT FIRST AVAILABLE
-     VOICE AUTOMATICALLY
-  */
+  // Prefer Indian English voice
 
-  select.value =
-    voices[0].name;
+  const indianVoice =
+    voices.find(
+      function(voice) {
+
+        return (
+          voice.lang
+            .toLowerCase()
+            .includes(
+              "en-in"
+            )
+        );
+
+      }
+    );
+
+
+  if (indianVoice) {
+
+    select.value =
+      indianVoice.name;
+
+  }
 
 }
 
-
-// =================================================
-// VOICES CHANGED
-// =================================================
 
 if (
   window.speechSynthesis
@@ -1830,12 +1703,10 @@ if (
   loadVoices();
 
 
-  speechSynthesis.onvoiceschanged =
-    function() {
-
-      loadVoices();
-
-    };
+  window
+    .speechSynthesis
+    .onvoiceschanged =
+      loadVoices;
 
 }
 
@@ -1846,22 +1717,24 @@ if (
 
 function updateSpeed() {
 
+  const speed =
+    document.getElementById(
+      "speed"
+    ).value;
+
+
   document
     .getElementById(
       "speedValue"
     )
     .innerText =
-      document
-        .getElementById(
-          "speed"
-        )
-        .value;
+      speed;
 
 }
 
 
 // =================================================
-// HISTORY
+// CONVERSATION HISTORY
 // =================================================
 
 function addHistory(
@@ -1913,6 +1786,8 @@ function addHistory(
   );
 
 
+  // Keep last 20 conversations
+
   while (
     history.children.length >
     21
@@ -1928,7 +1803,7 @@ function addHistory(
 
 
 // =================================================
-// ESCAPE
+// ESCAPE HTML
 // =================================================
 
 function escapeHTML(
@@ -1996,7 +1871,7 @@ function setStatus(
 
 
 // =================================================
-// ENTER
+// ENTER KEY
 // =================================================
 
 document
@@ -2022,6 +1897,7 @@ document
   );
 
 </script>
+
 
 </body>
 
