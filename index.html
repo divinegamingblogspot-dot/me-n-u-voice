@@ -236,7 +236,7 @@ function startVoice() {
         .getElementById("transcript")
         .innerHTML =
           '<div class="label">YOU</div>' +
-          question;
+          escapeHTML(question);
 
 
       setStatus(
@@ -429,14 +429,42 @@ function showAnswer(text) {
 
 function speak(text) {
 
-  window
-    .speechSynthesis
-    .cancel();
+  // Check if browser supports speech synthesis
+  if (
+    !(
+      "speechSynthesis" in window
+    )
+  ) {
+
+    setStatus(
+      "⚠️ Text-to-speech not supported"
+    );
+
+    return;
+
+  }
+
+
+  // Safely cancel previous speech
+  try {
+
+    window.speechSynthesis.cancel();
+
+  }
+
+  catch(error) {
+
+    console.log(
+      "Speech cancel error:",
+      error
+    );
+
+  }
 
 
   const utterance =
     new SpeechSynthesisUtterance(
-      text
+      String(text)
     );
 
 
@@ -466,11 +494,35 @@ function speak(text) {
     };
 
 
-  window
-    .speechSynthesis
-    .speak(
-      utterance
+  utterance.onerror =
+    function(event) {
+
+      setStatus(
+        "❌ Speech error: " +
+        event.error
+      );
+
+    };
+
+
+  try {
+
+    window
+      .speechSynthesis
+      .speak(
+        utterance
+      );
+
+  }
+
+  catch(error) {
+
+    setStatus(
+      "❌ Speech failed: " +
+      error.message
     );
+
+  }
 
 }
 
