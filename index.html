@@ -62,23 +62,14 @@ h1 {
 }
 
 #question {
-
   flex: 1;
-
   padding: 15px;
-
   font-size: 18px;
-
   border-radius: 10px;
-
   border: 1px solid #555;
-
   background: #222;
-
   color: white;
-
   outline: none;
-
 }
 
 #question:focus {
@@ -86,59 +77,39 @@ h1 {
 }
 
 #send {
-
   padding: 15px 20px;
-
   border: none;
-
   border-radius: 10px;
-
   cursor: pointer;
-
   font-weight: bold;
-
 }
 
 #speakButton {
-
   margin-top: 12px;
-
   padding: 12px 20px;
-
   border: none;
-
   border-radius: 10px;
-
   cursor: pointer;
-
   font-size: 15px;
+}
 
+#speakButton:active {
+  transform: scale(.97);
 }
 
 .card {
-
   background: #222;
-
   margin-top: 20px;
-
   padding: 20px;
-
   border-radius: 12px;
-
   text-align: left;
-
   line-height: 1.5;
-
 }
 
 .label {
-
   font-size: 11px;
-
   opacity: .5;
-
   margin-bottom: 10px;
-
 }
 
 </style>
@@ -168,6 +139,7 @@ Voice + Text
 
 <button
 id="mic"
+type="button"
 onclick="startVoice()">
 
 🎙️
@@ -194,6 +166,7 @@ autocomplete="off">
 
 <button
 id="send"
+type="button"
 onclick="sendText()">
 
 SEND
@@ -204,7 +177,7 @@ SEND
 
 
 <!-- =================================================
-     YOUR VOICE / QUESTION
+     QUESTION
 ================================================= -->
 
 <div
@@ -221,7 +194,7 @@ Waiting...
 
 
 <!-- =================================================
-     AI ANSWER
+     ANSWER
 ================================================= -->
 
 <div
@@ -238,11 +211,12 @@ Waiting...
 
 
 <!-- =================================================
-     MANUAL SPEAK BUTTON
+     SPEAK
 ================================================= -->
 
 <button
 id="speakButton"
+type="button"
 onclick="speakCurrentAnswer()">
 
 🔊 Speak Answer
@@ -257,7 +231,7 @@ onclick="speakCurrentAnswer()">
 
 
 // =================================================
-// YOUR APPS SCRIPT URL
+// APPS SCRIPT URL
 // =================================================
 
 const API_URL =
@@ -265,20 +239,24 @@ const API_URL =
 
 
 // =================================================
-// TEXT SEND
+// STORE LAST ANSWER
+// IMPORTANT
+// =================================================
+
+let currentAnswer = "";
+
+
+// =================================================
+// SEND TEXT
 // =================================================
 
 function sendText() {
 
   const input =
-    document.getElementById(
-      "question"
-    );
-
+    document.getElementById("question");
 
   const question =
     input.value.trim();
-
 
   if (!question) {
 
@@ -287,19 +265,14 @@ function sendText() {
     );
 
     return;
-
   }
 
-
-  sendToAI(
-    question
-  );
-
+  sendToAI(question);
 }
 
 
 // =================================================
-// VOICE
+// VOICE RECOGNITION
 // =================================================
 
 function startVoice() {
@@ -308,7 +281,6 @@ function startVoice() {
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-
   if (!SpeechRecognition) {
 
     setStatus(
@@ -316,25 +288,19 @@ function startVoice() {
     );
 
     return;
-
   }
-
 
   const recognition =
     new SpeechRecognition();
 
-
   recognition.lang =
     "en-IN";
-
 
   recognition.continuous =
     false;
 
-
   recognition.interimResults =
     false;
-
 
   recognition.maxAlternatives =
     1;
@@ -358,7 +324,6 @@ function startVoice() {
     );
 
     return;
-
   }
 
 
@@ -372,36 +337,18 @@ function startVoice() {
           .trim();
 
 
-      // =============================================
-      // PUT VOICE INTO EDITABLE TEXT BOX
-      // =============================================
-
       document
-        .getElementById(
-          "question"
-        )
+        .getElementById("question")
         .value =
           question;
 
 
-      // =============================================
-      // SHOW TRANSCRIPTION
-      // =============================================
-
       document
-        .getElementById(
-          "transcript"
-        )
+        .getElementById("transcript")
         .innerHTML =
           "<div class='label'>YOU</div>" +
-          escapeHTML(
-            question
-          );
+          escapeHTML(question);
 
-
-      // =============================================
-      // DO NOT SEND AUTOMATICALLY
-      // =============================================
 
       setStatus(
         "✏️ Edit if needed, then press SEND."
@@ -446,45 +393,52 @@ async function sendToAI(question) {
     );
 
 
-    // =============================================
-    // SHOW QUESTION
-    // =============================================
+    // Stop any previous speech
+
+    if (
+      window.speechSynthesis
+    ) {
+
+      window
+        .speechSynthesis
+        .cancel();
+
+    }
+
+
+    // Reset stored answer
+
+    currentAnswer = "";
+
+
+    // Show question
 
     document
-      .getElementById(
-        "transcript"
-      )
+      .getElementById("transcript")
       .innerHTML =
         "<div class='label'>YOU</div>" +
-        escapeHTML(
-          question
-        );
+        escapeHTML(question);
 
 
-    // =============================================
-    // CLEAR OLD ANSWER
-    // =============================================
+    // Show thinking
 
     document
-      .getElementById(
-        "answer"
-      )
+      .getElementById("answer")
       .innerHTML =
         "<div class='label'>ME N U</div>" +
         "Thinking...";
 
 
-    // =============================================
-    // SEND REQUEST
-    // =============================================
+    // =================================================
+    // SEND
+    // =================================================
 
     const response =
       await fetch(
         API_URL,
         {
 
-          method:
-            "POST",
+          method: "POST",
 
           headers: {
 
@@ -505,10 +459,6 @@ async function sendToAI(question) {
       );
 
 
-    // =============================================
-    // CHECK SERVER
-    // =============================================
-
     if (!response.ok) {
 
       throw new Error(
@@ -519,9 +469,9 @@ async function sendToAI(question) {
     }
 
 
-    // =============================================
-    // READ RESPONSE
-    // =============================================
+    // =================================================
+    // READ JSON
+    // =================================================
 
     const data =
       await response.json();
@@ -531,41 +481,44 @@ async function sendToAI(question) {
 
       throw new Error(
         data.error ||
+        data.message ||
         "Unknown server error"
       );
 
     }
 
 
-    // =============================================
+    // =================================================
     // GET ANSWER
-    // =============================================
+    // =================================================
 
     const answer =
-      data.answer ||
-      data.message ||
-      "No answer received.";
+      String(
+        data.answer ||
+        data.message ||
+        "No answer received."
+      );
 
 
-    // =============================================
+    // =================================================
+    // SAVE ANSWER
+    // IMPORTANT
+    // =================================================
+
+    currentAnswer =
+      answer;
+
+
+    // =================================================
     // SHOW ANSWER
-    // =============================================
+    // =================================================
 
     document
-      .getElementById(
-        "answer"
-      )
+      .getElementById("answer")
       .innerHTML =
         "<div class='label'>ME N U</div>" +
-        escapeHTML(
-          answer
-        );
+        escapeHTML(answer);
 
-
-    // =============================================
-    // IMPORTANT:
-    // NO AUTOMATIC SPEAKING
-    // =============================================
 
     setStatus(
       "✅ Answer received. Press 🔊 to hear it."
@@ -576,10 +529,10 @@ async function sendToAI(question) {
 
   catch(error) {
 
+    currentAnswer = "";
+
     document
-      .getElementById(
-        "answer"
-      )
+      .getElementById("answer")
       .innerHTML =
         "<div class='label'>ERROR</div>" +
         escapeHTML(
@@ -598,22 +551,22 @@ async function sendToAI(question) {
 
 
 // =================================================
-// MANUAL SPEAK CURRENT ANSWER
+// SPEAK CURRENT ANSWER
 // =================================================
 
 function speakCurrentAnswer() {
 
-  // ===============================================
-  // CHECK BROWSER SUPPORT
-  // ===============================================
+  // =================================================
+  // CHECK SUPPORT
+  // =================================================
 
   if (
-    !window.speechSynthesis ||
-    !window.SpeechSynthesisUtterance
+    !("speechSynthesis" in window) ||
+    !("SpeechSynthesisUtterance" in window)
   ) {
 
     setStatus(
-      "❌ Text-to-speech unavailable."
+      "❌ Text-to-speech is not supported by this browser."
     );
 
     return;
@@ -621,36 +574,15 @@ function speakCurrentAnswer() {
   }
 
 
-  // ===============================================
-  // GET ANSWER TEXT
-  // ===============================================
+  // =================================================
+  // USE STORED ANSWER
+  // =================================================
 
-  const answerElement =
-    document.getElementById(
-      "answer"
-    );
+  const text =
+    String(currentAnswer || "").trim();
 
 
-  let text =
-    answerElement.innerText;
-
-
-  // Remove ME N U label
-
-  text =
-    text
-      .replace(
-        "ME N U",
-        ""
-      )
-      .trim();
-
-
-  if (
-    !text ||
-    text === "Waiting..." ||
-    text === "Thinking..."
-  ) {
+  if (!text) {
 
     setStatus(
       "⚠️ Nothing to speak yet."
@@ -661,9 +593,18 @@ function speakCurrentAnswer() {
   }
 
 
-  // ===============================================
-  // CREATE VOICE
-  // ===============================================
+  // =================================================
+  // STOP PREVIOUS SPEECH
+  // =================================================
+
+  window
+    .speechSynthesis
+    .cancel();
+
+
+  // =================================================
+  // CREATE SPEECH
+  // =================================================
 
   const utterance =
     new SpeechSynthesisUtterance(
@@ -674,18 +615,55 @@ function speakCurrentAnswer() {
   utterance.lang =
     "en-IN";
 
-
   utterance.rate =
     1;
-
 
   utterance.pitch =
     1;
 
-
   utterance.volume =
     1;
 
+
+  // =================================================
+  // LOAD A VOICE
+  // =================================================
+
+  const voices =
+    window
+      .speechSynthesis
+      .getVoices();
+
+
+  const preferredVoice =
+    voices.find(function(voice) {
+
+      return (
+        voice.lang === "en-IN"
+      );
+
+    }) ||
+    voices.find(function(voice) {
+
+      return (
+        voice.lang &&
+        voice.lang.startsWith("en")
+      );
+
+    });
+
+
+  if (preferredVoice) {
+
+    utterance.voice =
+      preferredVoice;
+
+  }
+
+
+  // =================================================
+  // EVENTS
+  // =================================================
 
   utterance.onstart =
     function() {
@@ -693,6 +671,11 @@ function speakCurrentAnswer() {
       setStatus(
         "🔊 Speaking..."
       );
+
+      document
+        .getElementById("speakButton")
+        .innerText =
+        "🔊 Speaking...";
 
     };
 
@@ -704,23 +687,41 @@ function speakCurrentAnswer() {
         "Ready"
       );
 
+      document
+        .getElementById("speakButton")
+        .innerText =
+        "🔊 Speak Answer";
+
     };
 
 
   utterance.onerror =
     function(event) {
 
+      console.error(
+        "Speech error:",
+        event
+      );
+
       setStatus(
         "❌ Speech error: " +
-        event.error
+        (
+          event.error ||
+          "unknown error"
+        )
       );
+
+      document
+        .getElementById("speakButton")
+        .innerText =
+        "🔊 Speak Answer";
 
     };
 
 
-  // ===============================================
-  // START SPEAKING
-  // ===============================================
+  // =================================================
+  // SPEAK
+  // =================================================
 
   try {
 
@@ -730,15 +731,66 @@ function speakCurrentAnswer() {
         utterance
       );
 
+
+    // Chrome sometimes pauses speech
+    // after a long delay.
+    // Keep the speech engine alive.
+
+    setTimeout(
+      function() {
+
+        if (
+          window.speechSynthesis.speaking &&
+          !window.speechSynthesis.paused
+        ) {
+
+          window
+            .speechSynthesis
+            .resume();
+
+        }
+
+      },
+      100
+    );
+
+
   }
 
   catch(error) {
 
     setStatus(
-      "❌ Speech failed."
+      "❌ Speech failed: " +
+      error.message
     );
 
   }
+
+}
+
+
+// =================================================
+// LOAD VOICES
+// =================================================
+
+if (
+  "speechSynthesis" in window
+) {
+
+  window
+    .speechSynthesis
+    .getVoices();
+
+  window
+    .speechSynthesis
+    .onvoiceschanged =
+      function() {
+
+        window
+          .speechSynthesis
+          .getVoices();
+
+      };
 
 }
 
@@ -791,9 +843,7 @@ function escapeHTML(text) {
 function setStatus(text) {
 
   document
-    .getElementById(
-      "status"
-    )
+    .getElementById("status")
     .innerText =
       text;
 
@@ -805,16 +855,13 @@ function setStatus(text) {
 // =================================================
 
 document
-  .getElementById(
-    "question"
-  )
+  .getElementById("question")
   .addEventListener(
     "keydown",
     function(event) {
 
       if (
-        event.key ===
-        "Enter"
+        event.key === "Enter"
       ) {
 
         event.preventDefault();
@@ -825,6 +872,7 @@ document
 
     }
   );
+
 
 </script>
 
