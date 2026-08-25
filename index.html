@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+
+<title>ME N U Voice</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+  margin: 0;
+
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-family: Arial, sans-serif;
+
+  background: #111;
+
+  color: white;
+
+}
+
+.container {
+
+  width: 90%;
+
+  max-width: 500px;
+
+  text-align: center;
+
+}
+
+h1 {
+
+  font-size: 40px;
+
+  margin-bottom: 5px;
+
+}
+
+.subtitle {
+
+  opacity: .6;
+
+  margin-bottom: 40px;
+
+}
+
+#mic {
+
+  width: 150px;
+
+  height: 150px;
+
+  border-radius: 50%;
+
+  border: none;
+
+  font-size: 60px;
+
+  cursor: pointer;
+
+}
+
+#status {
+
+  margin-top: 25px;
+
+  font-size: 18px;
+
+}
+
+#transcript,
+#answer {
+
+  margin-top: 20px;
+
+  padding: 20px;
+
+  border-radius: 15px;
+
+  background: #222;
+
+  text-align: left;
+
+  min-height: 50px;
+
+}
+
+.label {
+
+  font-size: 12px;
+
+  opacity: .5;
+
+  margin-bottom: 8px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+<h1>ME N U</h1>
+
+<div class="subtitle">
+Voice Interface
+</div>
+
+<button id="mic"
+        onclick="startVoice()">
+
+🎙️
+
+</button>
+
+<div id="status">
+Ready
+</div>
+
+<div id="transcript">
+
+<div class="label">
+YOU
+</div>
+
+Say something...
+
+</div>
+
+<div id="answer">
+
+<div class="label">
+ME N U
+</div>
+
+Waiting...
+
+</div>
+
+</div>
+
+
+<script>
+
+// =================================================
+// YOUR APPS SCRIPT URL
+// =================================================
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxiC3YhxK0wiWwgFp_Jptmm40vZriJhgGGpo6JhnHTsFG1dQ8kRzIYHfb-Y3IgwNbjWqQ/exec";
+
+
+// =================================================
+// VOICE
+// =================================================
+
+function startVoice() {
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+  if (!SpeechRecognition) {
+
+    setStatus(
+      "❌ Speech recognition not supported"
+    );
+
+    return;
+
+  }
+
+
+  const recognition =
+    new SpeechRecognition();
+
+
+  recognition.lang =
+    "en-IN";
+
+
+  recognition.continuous =
+    false;
+
+
+  recognition.interimResults =
+    false;
+
+
+  recognition.maxAlternatives =
+    1;
+
+
+  setStatus(
+    "🎙️ Listening..."
+  );
+
+
+  recognition.start();
+
+
+  recognition.onresult =
+    function(event) {
+
+      const question =
+        event
+          .results[0][0]
+          .transcript
+          .trim();
+
+
+      document
+        .getElementById("transcript")
+        .innerHTML =
+          '<div class="label">YOU</div>' +
+          question;
+
+
+      setStatus(
+        "🧠 Thinking..."
+      );
+
+
+      sendToAI(question);
+
+    };
+
+
+  recognition.onerror =
+    function(event) {
+
+      setStatus(
+        "❌ Voice error: " +
+        event.error
+      );
+
+    };
+
+
+  recognition.onend =
+    function() {
+
+      document
+        .getElementById("mic")
+        .classList.remove(
+          "listening"
+        );
+
+    };
+
+}
+
+
+// =================================================
+// SEND QUESTION
+// =================================================
+
+async function sendToAI(question) {
+
+  try {
+
+    const response =
+      await fetch(
+        API_URL,
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body: JSON.stringify({
+
+            question: question
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+      throw new Error(
+        data.error ||
+        "AI request failed"
+      );
+
+    }
+
+
+    const answer =
+      data.answer;
+
+
+    document
+      .getElementById("answer")
+      .innerHTML =
+        '<div class="label">ME N U</div>' +
+        answer;
+
+
+    setStatus(
+      "🔊 Speaking..."
+    );
+
+
+    speak(answer);
+
+
+  } catch(error) {
+
+    setStatus(
+      "❌ " +
+      error.message
+    );
+
+  }
+
+}
+
+
+// =================================================
+// TEXT → SPEECH
+// =================================================
+
+function speak(text) {
+
+  window
+    .speechSynthesis
+    .cancel();
+
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+
+  utterance.lang =
+    "en-IN";
+
+
+  utterance.rate =
+    1;
+
+
+  utterance.pitch =
+    1;
+
+
+  utterance.volume =
+    1;
+
+
+  utterance.onend =
+    function() {
+
+      setStatus(
+        "Ready"
+      );
+
+    };
+
+
+  window
+    .speechSynthesis
+    .speak(
+      utterance
+    );
+
+}
+
+
+// =================================================
+// STATUS
+// =================================================
+
+function setStatus(text) {
+
+  document
+    .getElementById("status")
+    .innerText =
+      text;
+
+}
+
+</script>
+
+</body>
+
+</html>
