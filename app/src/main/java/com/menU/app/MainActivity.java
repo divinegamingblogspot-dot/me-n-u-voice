@@ -1,7 +1,7 @@
 package com.menU.app;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.webkit.PermissionRequest;
@@ -10,18 +10,12 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-public class MainActivity extends AppCompatActivity {
-
-    private static final int MIC_PERMISSION_CODE = 1001;
+public class MainActivity extends Activity {
 
     private WebView webView;
 
-    @SuppressLint("SetJavaScriptEnabled")
+    private static final int MIC_PERMISSION_CODE = 1001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -31,7 +25,16 @@ public class MainActivity extends AppCompatActivity {
 
         webView = findViewById(R.id.webview);
 
+        setupWebView();
+
         requestMicrophonePermission();
+
+        webView.loadUrl(
+            "https://divinegamingblogspot-dot.github.io/me-n-u-voice/"
+        );
+    }
+
+    private void setupWebView() {
 
         webView.getSettings().setJavaScriptEnabled(true);
 
@@ -39,74 +42,72 @@ public class MainActivity extends AppCompatActivity {
 
         webView.getSettings().setDatabaseEnabled(true);
 
-        webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        webView.getSettings()
+                .setMediaPlaybackRequiresUserGesture(false);
 
         webView.getSettings().setAllowFileAccess(false);
 
         webView.getSettings().setAllowContentAccess(false);
 
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(
+            new WebViewClient() {
 
-            @Override
-            public boolean shouldOverrideUrlLoading(
-                    WebView view,
-                    WebResourceRequest request) {
+                @Override
+                public boolean shouldOverrideUrlLoading(
+                        WebView view,
+                        WebResourceRequest request) {
 
-                return false;
+                    return false;
+                }
             }
+        );
 
-        });
+        webView.setWebChromeClient(
+            new WebChromeClient() {
 
-        webView.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public void onPermissionRequest(
+                        final PermissionRequest request) {
 
-            @Override
-            public void onPermissionRequest(
-                    final PermissionRequest request) {
+                    runOnUiThread(() -> {
 
-                runOnUiThread(() -> {
-
-                    String[] resources =
-                            request.getResources();
-
-                    for (String resource : resources) {
-
-                        if (PermissionRequest.RESOURCE_AUDIO_CAPTURE
-                                .equals(resource)) {
+                        if (
+                            checkSelfPermission(
+                                Manifest.permission.RECORD_AUDIO
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
 
                             request.grant(
-                                    new String[]{
-                                            PermissionRequest
-                                                    .RESOURCE_AUDIO_CAPTURE
-                                    }
+                                new String[]{
+                                    PermissionRequest
+                                        .RESOURCE_AUDIO_CAPTURE
+                                }
                             );
 
-                            return;
+                        } else {
+
+                            request.deny();
+
                         }
-                    }
-
-                    request.deny();
-                });
+                    });
+                }
             }
-        });
-
-        webView.loadUrl(
-                "https://divinegamingblogspot-dot.github.io/me-n-u-voice/"
         );
     }
 
     private void requestMicrophonePermission() {
 
-        if (ContextCompat.checkSelfPermission(
-                this,
+        if (
+            checkSelfPermission(
                 Manifest.permission.RECORD_AUDIO
-        ) != PackageManager.PERMISSION_GRANTED) {
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
-            ActivityCompat.requestPermissions(
-                    this,
-                    new String[]{
-                            Manifest.permission.RECORD_AUDIO
-                    },
-                    MIC_PERMISSION_CODE
+            requestPermissions(
+                new String[]{
+                    Manifest.permission.RECORD_AUDIO
+                },
+                MIC_PERMISSION_CODE
             );
         }
     }
@@ -114,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (webView.canGoBack()) {
+        if (
+            webView != null &&
+            webView.canGoBack()
+        ) {
 
             webView.goBack();
 
@@ -132,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
             webView.destroy();
 
+            webView = null;
         }
 
         super.onDestroy();
